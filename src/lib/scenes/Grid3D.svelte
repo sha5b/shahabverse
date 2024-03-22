@@ -1,4 +1,7 @@
 <script>
+  //@ts-nocheck
+	import BackgroundGrid from '$lib/components/BackgroundGrid.svelte';
+	import Box from '$lib/components/Box.svelte';
   import { T } from '@threlte/core'
   import { ContactShadows, Float, Grid, OrbitControls } from '@threlte/extras'
 </script>
@@ -10,9 +13,9 @@
 >
   <OrbitControls
     autoRotate
-    enableZoom={false}
+    enableZoom={true}
     enableDamping
-    autoRotateSpeed={0.5}
+    autoRotateSpeed={0.1}
     target.y={1.5}
   />
 </T.PerspectiveCamera>
@@ -24,14 +27,9 @@
 />
 <T.AmbientLight intensity={0.2} />
 
-<Grid
-  position.y={-0.001}
-  cellColor="black"
-  sectionColor="black"
-  sectionThickness={0}
-  fadeDistance={25}
-  cellSize={2}
-/>
+<BackgroundGrid />
+
+<Box/>
 
 <ContactShadows
   scale={10}
