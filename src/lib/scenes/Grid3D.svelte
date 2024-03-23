@@ -10,6 +10,7 @@
   makeDefault
   position={[-10, 10, 10]}
   fov={15}
+  far={10000}
 >
   <OrbitControls
     autoRotate

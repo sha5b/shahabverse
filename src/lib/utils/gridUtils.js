@@ -1,44 +1,38 @@
 //@ts-nocheck
-import { Vector3, BufferGeometry, Float32BufferAttribute } from 'three';
+import { Vector3 } from 'three';
 
-export function createGridLinesGeometry(size, cellSize) {
-    const points = [];
-    const halfSize = size.clone().divideScalar(2);
-    const divisions = size.clone().divideScalar(cellSize).floor();
+export const createGridLinesGeometry = (size, divisions) => {
+    const halfSize = size.clone().multiplyScalar(0.5);
+    const stepSize = size.clone().divideScalar(divisions);
 
-    const addLine = (start, end) => {
-        points.push(start.x, start.y, start.z, end.x, end.y, end.z);
-    };
+    const lines = [];
 
-    // Lines parallel to X-axis
-    for (let y = 0; y <= divisions.y; y++) {
-        for (let z = 0; z <= divisions.z; z++) {
-            addLine(
-                new Vector3(-halfSize.x, y * cellSize - halfSize.y, z * cellSize - halfSize.z),
-                new Vector3(halfSize.x, y * cellSize - halfSize.y, z * cellSize - halfSize.z)
-            );
+    // Horizontal lines (top and bottom)
+    for (let i = 0; i <= divisions; i++) {
+        for (let j = 0; j <= divisions; j++) {
+            const start = new Vector3(-halfSize.x + i * stepSize.x, -halfSize.y + j * stepSize.y, -halfSize.z);
+            const end = new Vector3(-halfSize.x + i * stepSize.x, -halfSize.y + j * stepSize.y, halfSize.z);
+            lines.push([start, end]);
         }
     }
 
-    // Lines parallel to Y-axis
-    for (let x = 0; x <= divisions.x; x++) {
-        for (let z = 0; z <= divisions.z; z++) {
-            addLine(
-                new Vector3(x * cellSize - halfSize.x, -halfSize.y, z * cellSize - halfSize.z),
-                new Vector3(x * cellSize - halfSize.x, halfSize.y, z * cellSize - halfSize.z)
-            );
+    // Vertical lines (left and right)
+    for (let i = 0; i <= divisions; i++) {
+        for (let k = 0; k <= divisions; k++) {
+            const start = new Vector3(-halfSize.x + i * stepSize.x, -halfSize.y, -halfSize.z + k * stepSize.z);
+            const end = new Vector3(-halfSize.x + i * stepSize.x, halfSize.y, -halfSize.z + k * stepSize.z);
+            lines.push([start, end]);
         }
     }
 
-    // Lines parallel to Z-axis
-    for (let x = 0; x <= divisions.x; x++) {
-        for (let y = 0; y <= divisions.y; y++) {
-            addLine(
-                new Vector3(x * cellSize - halfSize.x, y * cellSize - halfSize.y, -halfSize.z),
-                new Vector3(x * cellSize - halfSize.x, y * cellSize - halfSize.y, halfSize.z)
-            );
+    // Depth lines (front and back)
+    for (let j = 0; j <= divisions; j++) {
+        for (let k = 0; k <= divisions; k++) {
+            const start = new Vector3(-halfSize.x, -halfSize.y + j * stepSize.y, -halfSize.z + k * stepSize.z);
+            const end = new Vector3(halfSize.x, -halfSize.y + j * stepSize.y, -halfSize.z + k * stepSize.z);
+            lines.push([start, end]);
         }
     }
 
-    return new BufferGeometry().setAttribute('position', new Float32BufferAttribute(points, 3));
-}
+    return lines;
+};

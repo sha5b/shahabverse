@@ -1,31 +1,32 @@
 <script>
     //@ts-nocheck
-    import { onMount } from 'svelte';
-    import { bgGridSize, bgGridCellSize, bgGridColor, bgGridLinewidth, bgGridOpacity } from '$lib/store.js';
     import { T } from '@threlte/core';
+    import { MeshLineGeometry, MeshLineMaterial } from '@threlte/extras';
+    import { Vector3 } from 'three';
     import { createGridLinesGeometry } from '$lib/utils/gridUtils.js';
-    import { LineBasicMaterial } from 'three';
+    import { createEventDispatcher } from 'svelte';
 
-    let gridGeometry;
-    let gridMaterial;
+    export let size = new Vector3(1000, 1000, 1000);
+    export let cellSize = 10;
+    export let color = 'black';
+    export let linewidth = 0.1;
+    export let opacity = 0.1;
 
-    onMount(() => {
-        updateGrid();
-    });
 
-    $: {
-        updateGrid();
-    }
-
-    function updateGrid() {
-        gridGeometry = createGridLinesGeometry($bgGridSize, $bgGridCellSize);
-        gridMaterial = new LineBasicMaterial({
-            color: $bgGridColor,
-            transparent: true,
-            opacity: $bgGridOpacity,
-            linewidth: $bgGridLinewidth,
-        });
-    }
+    const gridLines = createGridLinesGeometry(size, cellSize);
 </script>
 
-<T.LineSegments geometry={gridGeometry} material={gridMaterial} />
+<T.Group>
+    {#each gridLines as [start, end]}
+        <T.Mesh>
+            <MeshLineGeometry points={[start, end]} />
+            <MeshLineMaterial
+                color={color}
+                linewidth={linewidth}
+                opacity={opacity}
+                transparent={true}
+                attenuate={true}
+            />
+        </T.Mesh>
+    {/each}
+</T.Group>

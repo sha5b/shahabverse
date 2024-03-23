@@ -22,8 +22,6 @@
 	});
 
 	$: lines = createBoxLines(size); // Use the utility function
-
-	export let id;
     
 </script>
 
