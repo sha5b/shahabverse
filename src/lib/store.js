@@ -1,10 +1,8 @@
 import { Vector3 } from 'three';
 import { writable } from 'svelte/store';
 
-//BackgroundGrid
-export let bgGridSize = writable(new Vector3(10000, 10000, 10000));
-export let bgGridCellSize = writable(500);
-export let bgGridColor = writable('black');
-export let bgGridLinewidth = writable(1);
-export let bgGridOpacity = writable(.25);
-
+export const bgGridSize = writable(new Vector3(1000, 1000, 1000));
+export const bgGridCellSize = writable(10);
+export const bgGridColor = writable('black');
+export const bgGridLinewidth = writable(1);
+export const bgGridOpacity = writable(.25);
