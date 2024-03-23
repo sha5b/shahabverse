@@ -8,6 +8,8 @@
     import { bgGridSize, bgGridCellSize, bgGridColor, bgGridLinewidth, bgGridOpacity } from '$lib/store.js';
 
     const gridLines = createGridLinesGeometry($bgGridSize,$bgGridCellSize);
+
+    
 </script>
 
 <T.Group>
