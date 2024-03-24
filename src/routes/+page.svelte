@@ -1,9 +1,10 @@
 <script>
   import App from '$lib/App.svelte'
+  export let data
 </script>
 
 <div>
-  <App />
+  <App {data}/>
 </div>
 
 <style>

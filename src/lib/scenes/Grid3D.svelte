@@ -2,8 +2,10 @@
 	//@ts-nocheck
 	import BackgroundGrid from '$lib/components/BackgroundGrid.svelte';
 	import Box from '$lib/components/Box.svelte';
+	import Distributor from '$lib/controllers/Distributor.svelte';
 	import { T } from '@threlte/core';
 	import { ContactShadows, Float, Grid, OrbitControls } from '@threlte/extras';
+	export let data
 
 </script>
 
@@ -22,6 +24,8 @@
 	<T.AmbientLight intensity={0.2} />
 
 	<BackgroundGrid />
+	
+	<Distributor categories={data.categories} works={data.works}/>
 
 	<Box />
 

@@ -21,6 +21,7 @@
                 linewidth={$bgGridLinewidth}
                 opacity={$bgGridOpacity}
                 transparent={true}
+                
                 dashArray={0.005}
                 dashRatio={0.5}
             />
