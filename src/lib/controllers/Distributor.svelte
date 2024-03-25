@@ -11,7 +11,7 @@
 		calculateContainerRange
 	} from '$lib/utils/transformUtils';
 
-	import { works, categories, cellSize, spacingFactor } from '$lib/store.js';
+	import { works, categories, cellSize, cellSizeZ, spacingFactor } from '$lib/store.js';
 
 
 	let categoryPositions = new Map();
@@ -24,7 +24,7 @@
 		range = calculateContainerRange(updatedCategories, maxScaledSize);
 
 		// Generate unique positions for each category
-		generateUniquePositions(updatedCategories, range, categoryPositions, $cellSize);
+		generateUniquePositions(updatedCategories, range, categoryPositions, $cellSizeZ);
 
 		// Update `updatedCategories` with the new positions
 		$categories =  updatedCategories.map((category) => {

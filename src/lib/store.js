@@ -16,5 +16,5 @@ export const categoryPositions = writable(new Map());
 
 export const cellSizeZ = derived(
     [gridSize, cellSize],
-    ([$gridSize, $gridCellSize]) => $gridSize.x / $gridCellSize
+    ([$gridSize, $cellSize]) => $gridSize.x / $cellSize
 );
