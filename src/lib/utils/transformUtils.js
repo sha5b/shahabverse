@@ -84,12 +84,54 @@ export function generateUniquePositions(categories, range, categoryPositions, ce
     });
 }
 
-// Utility function to count the number of works per category
-export function countWorksPerCategory(works, categoryId) {
-    return works.filter((work) => work.category === categoryId).length;
+export function calculateContainerRange(categories, maxScaledSize, padding = 0) {
+	const numCategoriesPerSide = Math.ceil(Math.cbrt(categories.length) / 2); // Halving the number of categories per side
+	const paddedSize = (dimension, numBoxes) => dimension * numBoxes + (numBoxes + 1) * padding; // Adjusted formula
+	const volume = ['x', 'y', 'z'].reduce(
+		(vol, axis) => vol * paddedSize(maxScaledSize[axis], numCategoriesPerSide),
+		1
+	);
+	return new Vector3(...Array(3).fill(Math.cbrt(volume)));
 }
 
-// Utility function to calculate the scaled size of a category
-export function calculateScaledSize(baseSize, scaleFactor) {
-    return baseSize.multiplyScalar(scaleFactor);
+export function countWorksPerCategory(works, categoryId) {
+    if (!Array.isArray(works)) {
+        console.error('works must be an array');
+        return 0;
+    }
+    return works.filter(work => work.category === categoryId).length;
+}
+
+export function calculateScaledSize(originalSize, scaleFactor) {
+    return originalSize.multiplyScalar(scaleFactor);
+}
+
+export function calculateScaledCategorySize(workCount, cellSize, spacingFactor) {
+    if (workCount === 0) return new Vector3();
+    const baseSize = Math.ceil(Math.sqrt(workCount));
+    return new Vector3(
+        baseSize * cellSize * spacingFactor,
+        baseSize * cellSize * spacingFactor,
+        baseSize * cellSize * spacingFactor
+    );
+}
+
+export function enrichCategories(categories, works, cellSize, spacingFactor) {
+    return categories.map((category) => {
+        const categoryWorks = works.filter((work) => work.category === category.id);
+        const workCount = categoryWorks.length;
+        return { ...category, works: categoryWorks, size: calculateScaledCategorySize(workCount, cellSize, spacingFactor) };
+    });
+}
+
+export function getMaxScaledSize(categories, works, size) {
+    return categories.reduce((maxSize, category) => {
+        const scaleFactor = countWorksPerCategory(works, category.id);
+        const scaledSize = calculateScaledSize(size.clone(), scaleFactor);
+        return {
+            x: Math.max(maxSize.x, scaledSize.x),
+            y: Math.max(maxSize.y, scaledSize.y),
+            z: Math.max(maxSize.z, scaledSize.z)
+        };
+    }, new Vector3());
 }

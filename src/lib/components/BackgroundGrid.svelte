@@ -18,10 +18,10 @@
             <MeshLineGeometry points={[start, end]} />
             <MeshLineMaterial
                 color={$bgGridColor}
-                linewidth={$bgGridLinewidth}
+                width={$bgGridLinewidth}
                 opacity={$bgGridOpacity}
                 transparent={true}
-                
+                attenuate={true}
                 dashArray={0.005}
                 dashRatio={0.5}
             />

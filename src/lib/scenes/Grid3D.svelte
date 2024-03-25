@@ -7,10 +7,15 @@
 	import { ContactShadows, Float, Grid, OrbitControls } from '@threlte/extras';
 	export let data
 
+	import { categories, works } from '$lib/store.js';
+
+	$categories = data.categories;
+	$works = data.works;
+	
 </script>
 
 <T.Scene>
-	<T.PerspectiveCamera makeDefault position={[-10, 10, 10]} fov={15} far={10000}>
+	<T.PerspectiveCamera makeDefault position={[-1000, 250, 0]} fov={15} far={100000}>
 		<OrbitControls
 			autoRotate
 			enableZoom={true}
@@ -26,8 +31,6 @@
 	<BackgroundGrid />
 	
 	<Distributor categories={data.categories} works={data.works}/>
-
-	<Box />
 
 	<ContactShadows scale={10} blur={2} far={2.5} opacity={0.5} />
 </T.Scene>

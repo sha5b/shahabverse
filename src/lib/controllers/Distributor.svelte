@@ -3,39 +3,44 @@
 	import { T } from '@threlte/core';
 	import { Vector3 } from 'three';
 	import Box from '$lib/components/Box.svelte';
-	import { prepareCategoriesForRendering } from '$lib/utils/transformUtils.js';
+	import { onMount } from 'svelte';
+	import {
+		enrichCategories,
+		getMaxScaledSize,
+		generateUniquePositions,
+		calculateContainerRange
+	} from '$lib/utils/transformUtils';
+
 	
 	export let categories = [];
 	export let works = [];
-	export let size = new Vector3(500, 500, 500);
+	let cellSize = 10;
+	let spacingFactor = 10;
 
-	let color = 'black';
-	const spacingFactor = 2; // Used to scale the size
-	let cellSize = 500;
+	let categoryPositions = new Map();
+	let updatedCategories = [];
+	let range; // The range will be calculated based on the maxScaledSize
 
-	const { updatedCategories, categoryPositions } = prepareCategoriesForRendering(categories, works, size, cellSize, spacingFactor);
+	onMount(() => {
+		updatedCategories = enrichCategories(categories, works, cellSize, spacingFactor);
+		let maxScaledSize = getMaxScaledSize(updatedCategories, works, new Vector3(100, 100, 100));
+		range = calculateContainerRange(updatedCategories, maxScaledSize);
+
+		// Generate unique positions for each category
+		generateUniquePositions(updatedCategories, range, categoryPositions, cellSize);
+
+		// Update `updatedCategories` with the new positions
+		updatedCategories = updatedCategories.map((category) => {
+			const position = categoryPositions.get(category.id);
+			return { ...category, position };
+		});
+
+		console.log(updatedCategories);
+	});
 </script>
 
 {#each updatedCategories as category (category.id)}
-	<T.Group>
-		<Box
-			position={categoryPositions.get(category.id)}
-			size={category.size}
-			{cellSize}
-			id={category.id}
-			{color}
-		>
-			<T.Mesh
-				position={[
-					0, // Half the size to the right
-					0, // Half the size down
-					category.size.z / 2 // Assuming you want it aligned with the front of the box
-				]}
-			>
-				<div style="pointer-events: none; width: {category.size.x}px; height: {category.size.y}px;">
-					<h1>{category.title}</h1>
-				</div>
-			</T.Mesh>
-		</Box>
+	<T.Group >
+		<Box position={category.position} size={category.size} />
 	</T.Group>
 {/each}
