@@ -11,23 +11,20 @@
 	export let size = new Vector3(100, 100, 100);
 	export let width = 10;
 	export let color = 'red';
-	let rotation = [0, 0, 0]; // Rotation as an array [x, y, z]
 
-	onMount(() => {
-		// Set rotation to 0, 90, 180, or 270 degrees (in radians) for each axis
-		rotation = [0, (Math.floor(Math.random() * 4) * Math.PI) / 2, 0];
-	});
 
 	$: lines = createBoxLines(size); // Use the utility function
 
-	console.log(position);
 </script>
 
 <T.Group position={[position.x,position.y,position.z]}>
 {#each lines as line}
-	<T.Mesh >
+	<T.Mesh>
 		<MeshLineGeometry points={line} />
 		<MeshLineMaterial {color} {width} attenuate />
+	</T.Mesh>
+	<T.Mesh>
+		<slot/>
 	</T.Mesh>
 {/each}
 </T.Group>

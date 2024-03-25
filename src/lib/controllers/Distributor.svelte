@@ -11,9 +11,8 @@
 		calculateContainerRange
 	} from '$lib/utils/transformUtils';
 
-	
-	export let categories = [];
-	export let works = [];
+	import { works, categories } from '$lib/store.js';
+
 	let cellSize = 10;
 	let spacingFactor = 10;
 
@@ -22,24 +21,25 @@
 	let range; // The range will be calculated based on the maxScaledSize
 
 	onMount(() => {
-		updatedCategories = enrichCategories(categories, works, cellSize, spacingFactor);
-		let maxScaledSize = getMaxScaledSize(updatedCategories, works, new Vector3(100, 100, 100));
+		updatedCategories = enrichCategories($categories, $works, cellSize, spacingFactor);
+		let maxScaledSize = getMaxScaledSize(updatedCategories, $works, new Vector3(100, 100, 100));
 		range = calculateContainerRange(updatedCategories, maxScaledSize);
 
 		// Generate unique positions for each category
 		generateUniquePositions(updatedCategories, range, categoryPositions, cellSize);
 
 		// Update `updatedCategories` with the new positions
-		updatedCategories = updatedCategories.map((category) => {
+		$categories =  updatedCategories.map((category) => {
 			const position = categoryPositions.get(category.id);
 			return { ...category, position };
-		});
-
-		console.log(updatedCategories);
+		});	
 	});
+
 </script>
 
-{#each updatedCategories as category (category.id)}
+{console.log($categories)}
+{#each $categories as category (category.id)}
+{console.log(category.position)}
 	<T.Group >
 		<Box position={category.position} size={category.size} />
 	</T.Group>

@@ -5,9 +5,10 @@
 	import Distributor from '$lib/controllers/Distributor.svelte';
 	import { T } from '@threlte/core';
 	import { ContactShadows, Float, Grid, OrbitControls } from '@threlte/extras';
+	import { categories, works } from '$lib/store.js';
 	export let data
 
-	import { categories, works } from '$lib/store.js';
+
 
 	$categories = data.categories;
 	$works = data.works;
@@ -30,7 +31,7 @@
 
 	<BackgroundGrid />
 	
-	<Distributor categories={data.categories} works={data.works}/>
+	<Distributor/>
 
 	<ContactShadows scale={10} blur={2} far={2.5} opacity={0.5} />
 </T.Scene>
