@@ -1,11 +1,11 @@
 import { Vector3 } from 'three';
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 
-export const bgGridSize = writable(new Vector3(10000, 10000, 10000));
-export const bgGridCellSize = writable(10);
-export const bgGridColor = writable('black');
-export const bgGridLinewidth = writable(10);
-export const bgGridOpacity = writable(.25);
+export const gridSize = writable(new Vector3(10000, 10000, 10000));
+
+export const gridColor = writable('blue');
+export const gridLinewidth = writable(2);
+export const gridOpacity = writable(.75);
 
 export const categories = writable([]);
 export const works = writable([]);
@@ -13,3 +13,8 @@ export const cellSize = writable(10);
 export const spacingFactor = writable(10);
 export const updatedCategories = writable([]);
 export const categoryPositions = writable(new Map());
+
+export const cellSizeZ = derived(
+    [gridSize, cellSize],
+    ([$gridSize, $gridCellSize]) => $gridSize.x / $gridCellSize
+);

@@ -102,6 +102,10 @@ export function countWorksPerCategory(works, categoryId) {
     return works.filter(work => work.category === categoryId).length;
 }
 
+export function calculateSize(minSize, gridSize) {
+    return Math.max(minSize, gridSize);
+   }
+
 export function calculateScaledSize(originalSize, scaleFactor) {
     return originalSize.multiplyScalar(scaleFactor);
 }
