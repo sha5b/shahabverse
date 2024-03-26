@@ -84,9 +84,9 @@ export function generateUniquePositions(categories, range, categoryPositions, ce
     });
 }
 
-export function calculateContainerRange(categories, maxScaledSize, padding = 0) {
+export function calculateContainerRange(categories, maxScaledSize) {
 	const numCategoriesPerSide = Math.ceil(Math.cbrt(categories.length) / 2); // Halving the number of categories per side
-	const paddedSize = (dimension, numBoxes) => dimension * numBoxes + (numBoxes + 1) * padding; // Adjusted formula
+	const paddedSize = (dimension, numBoxes) => dimension * numBoxes + (numBoxes + 1); // Adjusted formula
 	const volume = ['x', 'y', 'z'].reduce(
 		(vol, axis) => vol * paddedSize(maxScaledSize[axis], numCategoriesPerSide),
 		1
@@ -112,11 +112,18 @@ export function calculateScaledSize(originalSize, scaleFactor) {
 
 export function calculateScaledCategorySize(workCount, cellDivision, spacingFactor, minSize) {
     if (workCount === 0) return new Vector3(minSize, minSize, minSize);
-    const baseSize = Math.ceil(Math.sqrt(workCount));
+    
+    // Calculate the number of cells needed, incrementing for every 10 works
+    const cellsNeeded = Math.ceil(workCount / 10);
+    
+    // Calculate the new size based on cells needed
+    const newSize = cellsNeeded * cellDivision * spacingFactor;
+
+    // Ensure the size does not fall below the minimum size
     return new Vector3(
-        Math.max(baseSize * cellDivision * spacingFactor, minSize),
-        Math.max(baseSize * cellDivision * spacingFactor, minSize),
-        Math.max(baseSize * cellDivision * spacingFactor, minSize)
+        Math.max(newSize, minSize),
+        Math.max(newSize, minSize),
+        Math.max(newSize, minSize)
     );
 }
 
@@ -132,10 +139,10 @@ export function getMaxScaledSize(categories, works, size) {
     }, new Vector3());
 }
 
-export function enrichCategories(categories, works, cellSize, spacingFactor, cellSizeZ) {
+export function enrichCategories(categories, works, cellDivision, spacingFactor, cellSize) {
     return categories.map((category) => {
         const categoryWorks = works.filter((work) => work.category === category.id);
         const workCount = categoryWorks.length;
-        return { ...category, works: categoryWorks, size: calculateScaledCategorySize(workCount, cellSize, spacingFactor, cellSizeZ) };
+        return { ...category, works: categoryWorks, size: calculateScaledCategorySize(workCount, cellDivision, spacingFactor, cellSize) };
     });
 }

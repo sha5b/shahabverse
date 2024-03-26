@@ -8,7 +8,7 @@
 	import { createBoxLines } from '$lib/utils/boxUtils.js'; // Import the utility function
 
 	export let position = new Vector3(0, 0, 0);
-	export let size = new Vector3(100, 100, 100);
+	export let size = new Vector3(1000, 1000, 1000);
 	export let width = 10;
 	export let color = '#1f2833';
 
