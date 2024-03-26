@@ -3,7 +3,7 @@
 	import { T } from '@threlte/core';
 	import { Vector3 } from 'three';
 	import Box from '$lib/components/Box.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { processCategories } from '$lib/utils/transformUtils';
 	import {
 		works,
@@ -11,8 +11,9 @@
 		cellSize,
 		spacingFactor,
 		categoryPositions,
-		gridSize
-
+		gridSize,
+		workSize,
+		workPositions
 	} from '$lib/store.js';
 	import SmallGrid from '$lib/components/SmallGrid.svelte';
 	import { HTML } from '@threlte/extras';
@@ -24,7 +25,10 @@
 			$spacingFactor,
 			$cellSize,
 			$categoryPositions,
-			$gridSize
+			$gridSize,
+			$workPositions,
+			$workSize
+			
 		);
 		
 	});
@@ -35,11 +39,13 @@
 	<T.Group>
 		<Box position={category.position} size={category.size}>
 			<SmallGrid />
-			<T.Mesh>
+			<T.Mesh position={[- $cellSize / 4,- $cellSize / 4, $cellSize / 2]}>
 				<HTML transform distanceFactor={1000} >
-					<p> hi</p>
+					<h1>{category.title}</h1>
 				</HTML>
 			</T.Mesh>
+			
 		</Box>
 	</T.Group>
 {/each}
+{console.log($categories)}

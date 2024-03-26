@@ -5,16 +5,14 @@
     import { Vector3 } from 'three';
     import { createGridLinesGeometry } from '$lib/utils/gridUtils.js';
     import { createEventDispatcher } from 'svelte';
-    import { gridColor, gridLinewidth, gridOpacity, cellSize, workSize } from '$lib/store.js';
+    import { cellSize , smallCellDivision } from '$lib/store.js';
 
-    export let gridSize = new Vector3(1000, 1000, 1000);
-    export let cellDivision = 3
+    export let gridSize = new Vector3($cellSize, $cellSize, $cellSize);
     export let width = 2
     export let opacity = .5
     export let color = '#1f2833'
-
-    const gridLines = createGridLinesGeometry(gridSize,cellDivision);
-
+    const gridLines = createGridLinesGeometry(gridSize,$smallCellDivision);
+    
 </script>
 
 <T.Group >
