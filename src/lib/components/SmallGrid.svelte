@@ -8,23 +8,25 @@
     import { gridColor, gridLinewidth, gridOpacity, cellSize, workSize } from '$lib/store.js';
 
     export let gridSize = new Vector3(1000, 1000, 1000);
-    export let cellDivision = 5
+    export let cellDivision = 3
+    export let width = 2
+    export let opacity = .25
 
     const gridLines = createGridLinesGeometry(gridSize,cellDivision);
 
 </script>
 
-<T.Group position={[$cellSize / 2,$cellSize / 2,$cellSize / 2]}>
+<T.Group >
     {#each gridLines as [start, end]}
         <T.Mesh>
             <MeshLineGeometry points={[start, end]} />
             <MeshLineMaterial
-                color={'red'}
-                width={$gridLinewidth}
-                opacity={$gridOpacity}
+                color={'black'}
+                width={width}
+                opacity={opacity}
                 transparent={true}
                 attenuate={true}
-                dashArray={0.005}
+                dashArray={0.03}
                 dashRatio={0.5}
             />
         </T.Mesh>
