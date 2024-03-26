@@ -10,7 +10,8 @@
     export let gridSize = new Vector3(1000, 1000, 1000);
     export let cellDivision = 3
     export let width = 2
-    export let opacity = .25
+    export let opacity = .5
+    export let color = '#1f2833'
 
     const gridLines = createGridLinesGeometry(gridSize,cellDivision);
 
@@ -21,7 +22,7 @@
         <T.Mesh>
             <MeshLineGeometry points={[start, end]} />
             <MeshLineMaterial
-                color={'black'}
+                color={color}
                 width={width}
                 opacity={opacity}
                 transparent={true}
