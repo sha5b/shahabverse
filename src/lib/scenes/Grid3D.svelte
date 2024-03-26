@@ -16,7 +16,7 @@
 </script>
 
 <T.Scene>
-	<T.PerspectiveCamera makeDefault position={[-100, 100, 100]} fov={45} far={15000}>
+	<T.PerspectiveCamera makeDefault position={[-1000, 1000, 1000]} fov={45} far={15000}>
 		<OrbitControls
 			autoRotate
 			enableZoom={true}
