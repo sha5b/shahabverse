@@ -32,7 +32,6 @@
 
 
 {#each $categories as category (category.id)}
-	{console.log(category.title, category.works ,category.position)}
 	<T.Group>
 		<Box position={category.position} size={category.size}>
 			<SmallGrid />

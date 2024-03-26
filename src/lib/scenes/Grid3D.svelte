@@ -13,6 +13,7 @@
 	$categories = data.categories;
 	$works = data.works;
 	
+	$: console.log($categories)
 </script>
 
 <T.Scene>

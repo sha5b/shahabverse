@@ -169,7 +169,26 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
         }
         return workParts;
     });
-    
-    
+
+    // Calculate positions for each work item within the category bounds
+    works.forEach(work => {
+        const category = updatedCategories.find(cat => cat.id === work.category);
+        if (category) {
+            const position = new Vector3(
+                Math.random() * (category.size.x - workSize.x) + category.position.x,
+                Math.random() * (category.size.y - workSize.y) + category.position.y,
+                Math.random() * (category.size.z - workSize.z) + category.position.z
+            );
+            work.position = position; // Directly assign position to work
+        }
+    });
+    updatedCategories = updatedCategories.map(category => ({
+        ...category,
+        works: category.works.map(work => ({
+            ...work,
+            position: works.find(w => w.id === work.id).position // Assign position from works array
+        }))
+    }));
+
     return updatedCategories;
 }
