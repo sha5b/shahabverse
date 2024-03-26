@@ -7,19 +7,19 @@
     import { createEventDispatcher } from 'svelte';
     import { gridColor, gridLinewidth, gridOpacity, cellSize, workSize } from '$lib/store.js';
 
-    export let gridSize = new Vector3(100, 100, 100);
-    export let cellDivision = 100
+    export let gridSize = new Vector3(1000, 1000, 1000);
+    export let cellDivision = 5
 
     const gridLines = createGridLinesGeometry(gridSize,cellDivision);
 
 </script>
 
-<T.Group>
+<T.Group position={[$cellSize / 2,$cellSize / 2,$cellSize / 2]}>
     {#each gridLines as [start, end]}
         <T.Mesh>
             <MeshLineGeometry points={[start, end]} />
             <MeshLineMaterial
-                color={$gridColor}
+                color={'red'}
                 width={$gridLinewidth}
                 opacity={$gridOpacity}
                 transparent={true}

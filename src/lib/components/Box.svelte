@@ -19,10 +19,15 @@
 	{#each lines as line}
 		<T.Mesh>
 			<MeshLineGeometry points={line} />
-			<MeshLineMaterial width={width} color={color} transparent={true} attenuate={true} dashArray={0.05} dashRatio={0.5} />
-		</T.Mesh>
-		<T.Mesh>
-			<slot />
+			<MeshLineMaterial
+				{width}
+				{color}
+				transparent={true}
+				attenuate={true}
+				dashArray={0.05}
+				dashRatio={0.5}
+			/>
 		</T.Mesh>
 	{/each}
+	<slot />
 </T.Group>
