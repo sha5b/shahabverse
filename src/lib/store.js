@@ -7,10 +7,14 @@ export const smallCellDivision = writable(3);
 export const gridColor = writable('#a6bba1');
 export const gridLinewidth = writable(5);
 export const gridOpacity = writable(.75);
-export const spacingFactor = writable(10);
+export const spacingFactor = writable(1);
 export const cellSize = derived(
     [gridSize, cellDivision],
     ([$gridSize, $cellDivision]) => $gridSize.x / $cellDivision
+);
+export const smallCellSize = derived(
+    [cellSize, smallCellDivision],
+    ([$cellSize, $smallCellDivision]) => $cellSize / $smallCellDivision
 );
 
 export const categories = writable([]);

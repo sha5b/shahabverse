@@ -110,18 +110,18 @@ export function calculateScaledCategorySize(workCount, cellDivision, spacingFact
 }
 
 
-export function enrichCategories(categories, works, cellSize, workPositions, categoryPositions, gridSize, workSize) {
+export function enrichCategories(categories, works, cellSize, workPositions, categoryPositions, gridSize, smallCellSize) {
     const size = new Vector3(cellSize, cellSize, cellSize); // Use cellSize for all dimensions
 
     return categories.map((category) => {
         const categoryWorks = works.filter((work) => work.category === category.id);
         
         // Map the works to include size property
-        const worksWithSize = categoryWorks.map((work) => ({ ...work, size: workSize }));
+        const worksWithSize = categoryWorks.map((work) => ({ ...work, size: smallCellSize }));
         
         // Generate unique positions for each work within the category
         generateUniquePositions(worksWithSize, gridSize, workPositions, cellSize);
-
+        console.log(gridSize, cellSize, size, smallCellSize)
         // Map the works again to attach the generated positions
         const positionedWorks = worksWithSize.map((work) => {
             const position = workPositions.get(work.id);
@@ -132,9 +132,9 @@ export function enrichCategories(categories, works, cellSize, workPositions, cat
     });
 }
 
-export function processCategories(categories, works, spacingFactor, cellSize, categoryPositions, gridSize, workPositions, workSize) {
+export function processCategories(categories, works, spacingFactor, cellSize, categoryPositions, gridSize, workPositions, smallCellSize) {
     const spatialHash = {};
-    let updatedCategories = enrichCategories(categories, works, cellSize, workPositions, categoryPositions, gridSize, workSize);
+    let updatedCategories = enrichCategories(categories, works, cellSize, workPositions, categoryPositions, gridSize, smallCellSize);
 
 
     // Generate unique positions for each category
