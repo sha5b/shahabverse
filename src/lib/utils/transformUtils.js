@@ -84,30 +84,12 @@ export function generateUniquePositions(categories, range, categoryPositions, ce
     });
 }
 
-export function calculateContainerRange(categories, maxScaledSize) {
-	const numCategoriesPerSide = Math.ceil(Math.cbrt(categories.length) / 2); // Halving the number of categories per side
-	const paddedSize = (dimension, numBoxes) => dimension * numBoxes + (numBoxes + 1); // Adjusted formula
-	const volume = ['x', 'y', 'z'].reduce(
-		(vol, axis) => vol * paddedSize(maxScaledSize[axis], numCategoriesPerSide),
-		1
-	);
-	return new Vector3(...Array(3).fill(Math.cbrt(volume)));
-}
-
 export function countWorksPerCategory(works, categoryId) {
     if (!Array.isArray(works)) {
         console.error('works must be an array');
         return 0;
     }
     return works.filter(work => work.category === categoryId).length;
-}
-
-export function calculateSize(minSize, gridSize) {
-    return Math.max(minSize, gridSize);
-   }
-
-export function calculateScaledSize(originalSize, scaleFactor) {
-    return originalSize.multiplyScalar(scaleFactor);
 }
 
 export function calculateScaledCategorySize(workCount, cellDivision, spacingFactor, minSize) {
@@ -127,17 +109,6 @@ export function calculateScaledCategorySize(workCount, cellDivision, spacingFact
     );
 }
 
-export function getMaxScaledSize(categories, works, size) {
-    return categories.reduce((maxSize, category) => {
-        const scaleFactor = countWorksPerCategory(works, category.id);
-        const scaledSize = calculateScaledSize(size.clone(), scaleFactor);
-        return {
-            x: Math.max(maxSize.x, scaledSize.x),
-            y: Math.max(maxSize.y, scaledSize.y),
-            z: Math.max(maxSize.z, scaledSize.z)
-        };
-    }, new Vector3());
-}
 
 export function enrichCategories(categories, works, cellSize) {
     const size = new Vector3(cellSize, cellSize, cellSize); // Use cellSize for all dimensions
@@ -147,15 +118,13 @@ export function enrichCategories(categories, works, cellSize) {
     });
 }
 
-export function processCategories(categories, works, spacingFactor, cellSize, categoryPositions) {
+export function processCategories(categories, works, spacingFactor, cellSize, categoryPositions, gridSize) {
     const spatialHash = {};
     let updatedCategories = enrichCategories(categories, works, cellSize);
-        let maxScaledSize = getMaxScaledSize(updatedCategories, works, new Vector3(200, 200, 200));
-    let range = calculateContainerRange(updatedCategories, maxScaledSize);
 
     // Generate unique positions for each category
-    generateUniquePositions(updatedCategories, range, categoryPositions, cellSize);
-
+    generateUniquePositions(updatedCategories, gridSize, categoryPositions, cellSize);
+    console.log(categories, 'Max Scaled Size');
     // Update `updatedCategories` with the new positions
     updatedCategories = updatedCategories.map((category) => {
         const position = categoryPositions.get(category.id);

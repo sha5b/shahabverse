@@ -8,12 +8,14 @@
 	import {
 		works,
 		categories,
-		cellDivision,
 		cellSize,
 		spacingFactor,
-		categoryPositions
+		categoryPositions,
+		gridSize
+
 	} from '$lib/store.js';
 	import SmallGrid from '$lib/components/SmallGrid.svelte';
+	import { HTML } from '@threlte/extras';
 
 	onMount(() => {
 		$categories = processCategories(
@@ -21,7 +23,8 @@
 			$works,
 			$spacingFactor,
 			$cellSize,
-			$categoryPositions
+			$categoryPositions,
+			$gridSize
 		);
 		
 	});
@@ -33,6 +36,11 @@
 	<T.Group>
 		<Box position={category.position} size={category.size}>
 			<SmallGrid />
+			<T.Mesh>
+				<HTML transform distanceFactor={1000} >
+					<p> hi</p>
+				</HTML>
+			</T.Mesh>
 		</Box>
 	</T.Group>
 {/each}
