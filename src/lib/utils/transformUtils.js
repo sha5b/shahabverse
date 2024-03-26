@@ -139,18 +139,18 @@ export function getMaxScaledSize(categories, works, size) {
     }, new Vector3());
 }
 
-export function enrichCategories(categories, works, cellDivision, spacingFactor, cellSize) {
+export function enrichCategories(categories, works, cellSize) {
+    const size = new Vector3(cellSize, cellSize, cellSize); // Use cellSize for all dimensions
     return categories.map((category) => {
         const categoryWorks = works.filter((work) => work.category === category.id);
-        const workCount = categoryWorks.length;
-        return { ...category, works: categoryWorks, size: calculateScaledCategorySize(workCount, cellDivision, spacingFactor, cellSize) };
+        return { ...category, works: categoryWorks, size };
     });
 }
 
-export function processCategories(categories, works, cellDivision, spacingFactor, cellSize, categoryPositions) {
+export function processCategories(categories, works, spacingFactor, cellSize, categoryPositions) {
     const spatialHash = {};
-    let updatedCategories = enrichCategories(categories, works, cellDivision, spacingFactor, cellSize, categoryPositions);
-    let maxScaledSize = getMaxScaledSize(updatedCategories, works, new Vector3(200, 200, 200));
+    let updatedCategories = enrichCategories(categories, works, cellSize);
+        let maxScaledSize = getMaxScaledSize(updatedCategories, works, new Vector3(200, 200, 200));
     let range = calculateContainerRange(updatedCategories, maxScaledSize);
 
     // Generate unique positions for each category
@@ -159,7 +159,6 @@ export function processCategories(categories, works, cellDivision, spacingFactor
     // Update `updatedCategories` with the new positions
     updatedCategories = updatedCategories.map((category) => {
         const position = categoryPositions.get(category.id);
-        const size = category.size;
         return { ...category, position };
     });
 

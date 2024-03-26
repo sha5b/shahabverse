@@ -19,19 +19,17 @@
 		$categories = processCategories(
 			$categories,
 			$works,
-			$cellDivision,
 			$spacingFactor,
 			$cellSize,
 			$categoryPositions
 		);
+		
 	});
 </script>
 
-{console.log($categories)}
-{#each $categories as category (category.id)}
-	{console.log('title', category.title)}
-	{console.log(category)}
 
+{#each $categories as category (category.id)}
+	{console.log(category.size)}
 	<T.Group>
 		<Box position={category.position} size={category.size}>
 			<SmallGrid />
