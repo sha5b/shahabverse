@@ -1,10 +1,10 @@
 <script>
 	//@ts-nocheck
-	import BackgroundGrid from '$lib/components/BackgroundGrid.svelte';
+	import Grid from '$lib/components/Grid.svelte';
 	import Box from '$lib/components/Box.svelte';
 	import Distributor from '$lib/controllers/Distributor.svelte';
 	import { T } from '@threlte/core';
-	import { ContactShadows, Float, Grid, OrbitControls } from '@threlte/extras';
+	import { ContactShadows, OrbitControls } from '@threlte/extras';
 	import { categories, works } from '$lib/store.js';
 	export let data
 
@@ -16,7 +16,7 @@
 </script>
 
 <T.Scene>
-	<T.PerspectiveCamera makeDefault position={[-1000, 250, 0]} fov={45} far={10000}>
+	<T.PerspectiveCamera makeDefault position={[-1000, 250, 0]} fov={45} far={15000}>
 		<OrbitControls
 			autoRotate
 			enableZoom={true}
@@ -29,7 +29,7 @@
 	<T.DirectionalLight intensity={0.8} position.x={5} position.y={10} />
 	<T.AmbientLight intensity={0.2} />
 
-	<BackgroundGrid />
+	<Grid />
 	
 	<Distributor/>
 

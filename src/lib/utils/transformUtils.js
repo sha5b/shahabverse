@@ -110,22 +110,14 @@ export function calculateScaledSize(originalSize, scaleFactor) {
     return originalSize.multiplyScalar(scaleFactor);
 }
 
-export function calculateScaledCategorySize(workCount, cellSize, spacingFactor) {
-    if (workCount === 0) return new Vector3();
+export function calculateScaledCategorySize(workCount, cellDivision, spacingFactor, minSize) {
+    if (workCount === 0) return new Vector3(minSize, minSize, minSize);
     const baseSize = Math.ceil(Math.sqrt(workCount));
     return new Vector3(
-        baseSize * cellSize * spacingFactor,
-        baseSize * cellSize * spacingFactor,
-        baseSize * cellSize * spacingFactor
+        Math.max(baseSize * cellDivision * spacingFactor, minSize),
+        Math.max(baseSize * cellDivision * spacingFactor, minSize),
+        Math.max(baseSize * cellDivision * spacingFactor, minSize)
     );
-}
-
-export function enrichCategories(categories, works, cellSize, spacingFactor) {
-    return categories.map((category) => {
-        const categoryWorks = works.filter((work) => work.category === category.id);
-        const workCount = categoryWorks.length;
-        return { ...category, works: categoryWorks, size: calculateScaledCategorySize(workCount, cellSize, spacingFactor) };
-    });
 }
 
 export function getMaxScaledSize(categories, works, size) {
@@ -138,4 +130,12 @@ export function getMaxScaledSize(categories, works, size) {
             z: Math.max(maxSize.z, scaledSize.z)
         };
     }, new Vector3());
+}
+
+export function enrichCategories(categories, works, cellSize, spacingFactor, cellSizeZ) {
+    return categories.map((category) => {
+        const categoryWorks = works.filter((work) => work.category === category.id);
+        const workCount = categoryWorks.length;
+        return { ...category, works: categoryWorks, size: calculateScaledCategorySize(workCount, cellSize, spacingFactor, cellSizeZ) };
+    });
 }

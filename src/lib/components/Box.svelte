@@ -10,21 +10,19 @@
 	export let position = new Vector3(0, 0, 0);
 	export let size = new Vector3(100, 100, 100);
 	export let width = 10;
-	export let color = 'red';
-
+	export let color = 'blue';
 
 	$: lines = createBoxLines(size); // Use the utility function
-
 </script>
 
-<T.Group position={[position.x,position.y,position.z]}>
-{#each lines as line}
-	<T.Mesh>
-		<MeshLineGeometry points={line} />
-		<MeshLineMaterial {color} {width} attenuate />
-	</T.Mesh>
-	<T.Mesh>
-		<slot/>
-	</T.Mesh>
-{/each}
+<T.Group position={[position.x, position.y, position.z]}>
+	{#each lines as line}
+		<T.Mesh>
+			<MeshLineGeometry points={line} />
+			<MeshLineMaterial width={width} color={color} transparent={true} attenuate={true} dashArray={0.05} dashRatio={0.5} />
+		</T.Mesh>
+		<T.Mesh>
+			<slot />
+		</T.Mesh>
+	{/each}
 </T.Group>

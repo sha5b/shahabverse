@@ -11,24 +11,21 @@
 		calculateContainerRange
 	} from '$lib/utils/transformUtils';
 
-	import { works, categories, cellSize, cellSizeZ, spacingFactor } from '$lib/store.js';
-
-
-	let categoryPositions = new Map();
-	let updatedCategories = [];
-	let range; // The range will be calculated based on the maxScaledSize
+	import { works, categories, cellDivision, cellSize, spacingFactor, categoryPositions } from '$lib/store.js';
+	import SmallGrid from '$lib/components/SmallGrid.svelte';
+	
 
 	onMount(() => {
-		updatedCategories = enrichCategories($categories, $works, $cellSize, $spacingFactor);
-		let maxScaledSize = getMaxScaledSize(updatedCategories, $works, new Vector3(100, 100, 100));
-		range = calculateContainerRange(updatedCategories, maxScaledSize);
+		let updatedCategories = enrichCategories($categories, $works, $cellDivision, $spacingFactor, $cellSize);
+		let maxScaledSize = getMaxScaledSize(updatedCategories, $works, new Vector3(200, 200, 200));
+		let range = calculateContainerRange(updatedCategories, maxScaledSize);
 
 		// Generate unique positions for each category
-		generateUniquePositions(updatedCategories, range, categoryPositions, $cellSizeZ);
+		generateUniquePositions(updatedCategories, range, $categoryPositions, $cellSize);
 
 		// Update `updatedCategories` with the new positions
 		$categories =  updatedCategories.map((category) => {
-			const position = categoryPositions.get(category.id);
+			const position = $categoryPositions.get(category.id);
 			return { ...category, position };
 		});	
 	});
@@ -37,7 +34,9 @@
 
 {#each $categories as category (category.id)}
 {console.log(category)}
+{console.log(category.position)}
 	<T.Group >
-		<Box position={category.position} size={category.size} />
+		<Box position={category.position} size={category.size}>
+	</Box>
 	</T.Group>
 {/each}

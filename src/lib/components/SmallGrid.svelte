@@ -5,9 +5,12 @@
     import { Vector3 } from 'three';
     import { createGridLinesGeometry } from '$lib/utils/gridUtils.js';
     import { createEventDispatcher } from 'svelte';
-    import { gridSize, cellSize, gridColor, gridLinewidth, gridOpacity } from '$lib/store.js';
+    import { gridColor, gridLinewidth, gridOpacity, cellSize, workSize } from '$lib/store.js';
 
-    const gridLines = createGridLinesGeometry($gridSize,$cellSize);
+    export let gridSize = new Vector3(100, 100, 100);
+    export let cellDivision = 100
+
+    const gridLines = createGridLinesGeometry(gridSize,cellDivision);
 
 </script>
 
