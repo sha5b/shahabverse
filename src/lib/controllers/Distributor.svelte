@@ -2,6 +2,7 @@
 	//@ts-nocheck
 	import { T } from '@threlte/core';
 	import { Vector3 } from 'three';
+	import * as THREE from 'three';
 	import Box from '$lib/components/Box.svelte';
 	import { onMount, tick } from 'svelte';
 	import { processCategories } from '$lib/utils/transformUtils';
@@ -34,20 +35,27 @@
 	});
 </script>
 
-{#each $categories as category (category.id)}
+{#each $categories as category, index (category.id)}
 	<T.Group>
-		<Box position={category.position} size={category.size}>
+		<Box position={category.position} size={category.size} index={index}>
 			<SmallGrid />
-			<T.Mesh position={[-$cellSize / 4, -$cellSize / 4, $cellSize / 2]}>
-				<HTML transform distanceFactor={1000}>
-					<h1>{category.title}</h1>
+			<T.Mesh position={[0, 0, $cellSize / 2]}>
+				<HTML transform distanceFactor={750} pointerEvents="none" occlude>
+					<div style={`width: ${$cellSize / 2}px; height: ${$cellSize / 2}px;`}>
+						<h1>{category.title}</h1>
+					</div>
 				</HTML>
 			</T.Mesh>
 		</Box>
 		{#if category.works}
-		{#each category.works as work (work.id)}
-			<Box position={work.position} size={work.size} />
-		{/each}
-	{/if}
+			{#each category.works as work, workIndex (work.id)}
+				<Box position={work.position} size={work.size} width={5} index={workIndex}></Box>
+			{/each}
+		{/if}
 	</T.Group>
 {/each}
+
+<style>
+	div {
+	}
+</style>

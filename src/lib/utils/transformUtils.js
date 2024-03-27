@@ -148,7 +148,6 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
             work.position = workPositions.get(work.id).clone().add(category.position);;
             
         });
-        console.log('updatedCategories 2', updatedCategories);
     });
     
     return updatedCategories;
