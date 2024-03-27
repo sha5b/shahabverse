@@ -1,5 +1,5 @@
 <script>
-    //@ts-nocheck
+	//@ts-nocheck
 	import { T } from '@threlte/core';
 	import { useTexture, Text, HTML } from '@threlte/extras';
 	import * as THREE from 'three';
@@ -10,38 +10,29 @@
 	import { Vector3 } from 'three';
 
 	export let work;
-    export let smallCellSize;
+	export let cellSize;
 
-	async function loadTextureForWork(work) {
-		let loadedTexture;
-
-		const imageUrl = getImageURL(work.collectionId, work.id, work.thump);
-
-		try {
-			loadedTexture = await useTexture(imageUrl); // Assuming useTexture is async
-
-		} catch (error) {
-			console.error('Error loading texture:', error);
-		}
-
-		return {
-			texture: loadedTexture
-		};
-	}
-
-	// Reactive statement to load the texture when 'work' changes
-	let textureDataPromise;
-	$: if (work) {
-		textureDataPromise = loadTextureForWork(work);
-	}
+	const imageUrl = getImageURL(work.collectionId, work.id, work.thump);
 </script>
-{#await textureDataPromise then {texture}}
 
-<T.Mesh >
-    <T.PlaneGeometry args={[smallCellSize, smallCellSize]} />
-    <T.MeshBasicMaterial
-        side={THREE.DoubleSide}
-        map={texture}
-    />
+<T.Mesh>
+	<HTML transform distanceFactor={750} pointerEvents={'none'}>
+		<div style={`width: ${cellSize / 2}px; height: ${cellSize / 2}px;`}>
+			<!-- Your HTML content with img tag -->
+			<img src={getImageURL(work.collectionId, work.id, work.thump)} alt={work.title} />
+		</div>
+	</HTML>
 </T.Mesh>
-{/await}
+
+<style>
+	div {
+		display: flex;
+		justify-content: center;
+		align-items: flex-end;
+	}
+	img {
+		object-fit: contain;
+		max-width: 100%;
+		max-height: 100%;
+	}
+</style>

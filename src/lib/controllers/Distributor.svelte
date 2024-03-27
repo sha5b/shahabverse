@@ -16,7 +16,7 @@
 		smallCellSize,
 		workPositions
 	} from '$lib/store.js';
-	import SmallGrid from '$lib/components/SmallGrid.svelte';
+
 	import { HTML } from '@threlte/extras';
 	import BoxDisplay from '$lib/components/BoxDisplay.svelte';
 
@@ -49,8 +49,13 @@
 		</Box>
 		{#if category.works}
 			{#each category.works as work (work.id)}
-				<Box position={work.position} size={work.size} width={5}>
-				<BoxDisplay {work} smallCellSize={$smallCellSize}/></Box>
+				<T.Mesh>
+					<Box position={work.position} size={work.size} width={5}>
+						<T.Mesh position={[0, 0, $smallCellSize / 2]}
+							><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh
+						>
+					</Box>
+				</T.Mesh>
 			{/each}
 		{/if}
 	</T.Group>

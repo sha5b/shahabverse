@@ -13,7 +13,7 @@
 
 <T.Group position={[$cellSize / 2,$cellSize / 2,$cellSize / 2]}>
     {#each gridLines as [start, end]}
-        <T.Mesh>
+        <T.Mesh renderOrder={0}>
             <MeshLineGeometry points={[start, end]} />
             <MeshLineMaterial
                 color={$gridColor}
