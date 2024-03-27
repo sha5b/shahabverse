@@ -105,7 +105,7 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
         }));
 
         category.works.forEach(work => {
-            generateUniquePositions([work], gridSize, workPositions, smallCellSize);
+            generateUniquePositions([work], new Vector3(1000, 1000, 1000), workPositions, smallCellSize);
             work.position = workPositions.get(work.id);
         });
     });

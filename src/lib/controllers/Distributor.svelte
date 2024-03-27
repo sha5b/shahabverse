@@ -19,7 +19,7 @@
 	import { HTML } from '@threlte/extras';
 
 	onMount(async () => {
-		await smallCellSize
+		await smallCellSize;
 
 		$categories = processCategories(
 			$categories,
@@ -31,23 +31,23 @@
 			$workPositions,
 			$smallCellSize
 		);
-
 	});
 </script>
-
 
 {#each $categories as category (category.id)}
 	<T.Group>
 		<Box position={category.position} size={category.size}>
 			<SmallGrid />
-			<T.Mesh position={[- $cellSize / 4,- $cellSize / 4, $cellSize / 2]}>
-				<HTML transform distanceFactor={1000} >
+			<T.Mesh position={[-$cellSize / 4, -$cellSize / 4, $cellSize / 2]}>
+				<HTML transform distanceFactor={1000}>
 					<h1>{category.title}</h1>
 				</HTML>
 			</T.Mesh>
+			{#if category.works}
+				{#each category.works as work (work.id)}
+					<Box position={work.position} size={work.size} />
+				{/each}
+			{/if}
 		</Box>
-		{console.log(category.works)}
 	</T.Group>
 {/each}
-{console.log($works, 'saved works')}
-
