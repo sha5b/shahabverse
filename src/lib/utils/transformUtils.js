@@ -95,10 +95,10 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
         return { ...category, works: categoryWorks, size: new Vector3(cellSize, cellSize, cellSize) };
     });
 
-
+    let paddedGridSize = new Vector3 (gridSize.x - 2000, gridSize.y - 2000, gridSize.z - 2000);
 
     updatedCategories.forEach(category => {
-        generateUniquePositions(updatedCategories, gridSize, categoryPositions, cellSize);
+        generateUniquePositions(updatedCategories, paddedGridSize, categoryPositions, cellSize);
         updatedCategories = updatedCategories.map(category => ({
             ...category,
             position: categoryPositions.get(category.id)

@@ -35,9 +35,9 @@
 	});
 </script>
 
-{#each $categories as category, index (category.id)}
+{#each $categories as category (category.id)}
 	<T.Group>
-		<Box position={category.position} size={category.size} index={index}>
+		<Box position={category.position} size={category.size}>
 			<SmallGrid />
 			<T.Mesh position={[0, 0, $cellSize / 2]}>
 				<HTML transform distanceFactor={750} pointerEvents="none" occlude>
@@ -48,8 +48,8 @@
 			</T.Mesh>
 		</Box>
 		{#if category.works}
-			{#each category.works as work, workIndex (work.id)}
-				<Box position={work.position} size={work.size} width={5} index={workIndex}></Box>
+			{#each category.works as work (work.id)}
+				<Box position={work.position} size={work.size} width={5}></Box>
 			{/each}
 		{/if}
 	</T.Group>

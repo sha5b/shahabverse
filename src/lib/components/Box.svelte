@@ -13,6 +13,7 @@
 	let rotation = [0, 0, 0];
 	
 	$: lines = createBoxLines(size); // Use the utility function
+	
 	onMount(() => {
 		rotation = [0, (Math.floor(Math.random() * 4) * Math.PI) / 2, 0];
 	});
