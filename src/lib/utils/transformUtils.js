@@ -66,84 +66,50 @@ function isOverlapping(position, size, categoryPositions, spatialHash, cellSize)
 }
 
 // Utility function to generate unique positions for each category
-export function generateUniquePositions(categories, range, categoryPositions, cellSize) {
+export function generateUniquePositions(items, range, positionsMap, cellSize) {
     const spatialHash = {};
 
-    categories.forEach((category) => {
+    items.forEach((item) => {
         let pos;
         do {
-            pos = roundVectorToCellSize(getRandomGridPosition(range, category.size), cellSize);
-        } while (isOverlapping(pos, category.size, categoryPositions, spatialHash, cellSize));
+            pos = roundVectorToCellSize(getRandomGridPosition(range, item.size), cellSize);
+        } while (isOverlapping(pos, item.size, positionsMap, spatialHash, cellSize));
 
         const key = computeHashKey(pos, cellSize);
         if (!spatialHash[key]) {
             spatialHash[key] = [];
         }
         spatialHash[key].push(pos);
-        categoryPositions.set(category.id, pos);
-    });
-}
-
-export function countWorksPerCategory(works, categoryId) {
-    if (!Array.isArray(works)) {
-        console.error('works must be an array');
-        return 0;
-    }
-    return works.filter(work => work.category === categoryId).length;
-}
-
-export function calculateScaledCategorySize(workCount, cellDivision, spacingFactor, minSize) {
-    if (workCount === 0) return new Vector3(minSize, minSize, minSize);
-    
-    // Calculate the number of cells needed, incrementing for every 10 works
-    const cellsNeeded = Math.ceil(workCount / 10);
-    
-    // Calculate the new size based on cells needed
-    const newSize = cellsNeeded * cellDivision * spacingFactor;
-
-    // Ensure the size does not fall below the minimum size
-    return new Vector3(
-        Math.max(newSize, minSize),
-        Math.max(newSize, minSize),
-        Math.max(newSize, minSize)
-    );
-}
-
-
-export function enrichCategories(categories, works, cellSize, workPositions, categoryPositions, gridSize, smallCellSize) {
-    const size = new Vector3(cellSize, cellSize, cellSize); // Use cellSize for all dimensions
-
-    return categories.map((category) => {
-        const categoryWorks = works.filter((work) => work.category === category.id);
-        
-        // Map the works to include size property
-        const worksWithSize = categoryWorks.map((work) => ({ ...work, size: smallCellSize }));
-        
-        // Generate unique positions for each work within the category
-        generateUniquePositions(worksWithSize, gridSize, workPositions, cellSize);
-        console.log(gridSize, cellSize, size, smallCellSize)
-        // Map the works again to attach the generated positions
-        const positionedWorks = worksWithSize.map((work) => {
-            const position = workPositions.get(work.id);
-            return { ...work, position: position }; // Keep the absolute position
-        });
-
-        return { ...category, works: positionedWorks, size };
+        positionsMap.set(item.id, pos);
     });
 }
 
 export function processCategories(categories, works, spacingFactor, cellSize, categoryPositions, gridSize, workPositions, smallCellSize) {
     const spatialHash = {};
-    let updatedCategories = enrichCategories(categories, works, cellSize, workPositions, categoryPositions, gridSize, smallCellSize);
-
-
-    // Generate unique positions for each category
-    generateUniquePositions(updatedCategories, gridSize, categoryPositions, cellSize);
-    // Update `updatedCategories` with the new positions
-    updatedCategories = updatedCategories.map((category) => {
-        const position = categoryPositions.get(category.id);
-        return { ...category, position };
+    let updatedCategories = categories.map(category => {
+        const categoryWorks = works.filter(work => work.category === category.id).map(work => ({
+            ...work,
+            size: new Vector3(smallCellSize,smallCellSize,smallCellSize) ,
+            position: new Vector3() // Initialize position for each work
+        }));
+        return { ...category, works: categoryWorks, size: new Vector3(cellSize, cellSize, cellSize) };
     });
+
+
+
+    updatedCategories.forEach(category => {
+        generateUniquePositions(updatedCategories, gridSize, categoryPositions, cellSize);
+        updatedCategories = updatedCategories.map(category => ({
+            ...category,
+            position: categoryPositions.get(category.id)
+        }));
+
+        category.works.forEach(work => {
+            generateUniquePositions([work], gridSize, workPositions, smallCellSize);
+            work.position = workPositions.get(work.id);
+        });
+    });
+
 
     updatedCategories = updatedCategories.flatMap(category => {
         const workParts = [];
@@ -153,36 +119,31 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
                 id: `${category.id}-${i / 10}`,
                 works: category.works.slice(i, i + 10)
             };
-    
+            
             let newPosition;
             do {
-                // Define a range for the new position relative to the original category's position
-                let newPosRange = new Vector3(
+                const newPosRange = new Vector3(
                     category.size.x + spacingFactor + cellSize,
                     category.size.y + spacingFactor + cellSize,
                     category.size.z + spacingFactor + cellSize
                 );
     
-                // Attempt to place the new category next to the original category
                 newPosition = getRandomGridPosition(newPosRange, newCategory.size);
-                newPosition.add(category.position); // Offset by the original category's position
-    
-                newPosition = roundVectorToCellSize(newPosition, cellSize); // Round the position to the grid
+                newPosition.add(category.position);
+                newPosition = roundVectorToCellSize(newPosition, cellSize);
             } while (isOverlapping(newPosition, newCategory.size, categoryPositions, spatialHash, cellSize));
     
-            // Update spatialHash with the new position
             const key = computeHashKey(newPosition, cellSize);
             if (!spatialHash[key]) {
                 spatialHash[key] = [];
             }
             spatialHash[key].push(newPosition);
     
-            // Update the position in the categoryPositions store
             categoryPositions.set(newCategory.id, newPosition);
+
             workParts.push({ ...newCategory, position: newPosition });
         }
         return workParts;
     });
-    
     return updatedCategories;
 }

@@ -12,13 +12,15 @@
 		spacingFactor,
 		categoryPositions,
 		gridSize,
-		workSize,
+		smallCellSize,
 		workPositions
 	} from '$lib/store.js';
 	import SmallGrid from '$lib/components/SmallGrid.svelte';
 	import { HTML } from '@threlte/extras';
 
-	onMount(() => {
+	onMount(async () => {
+		await smallCellSize
+
 		$categories = processCategories(
 			$categories,
 			$works,
@@ -27,10 +29,9 @@
 			$categoryPositions,
 			$gridSize,
 			$workPositions,
-			$workSize
-			
+			$smallCellSize
 		);
-		
+
 	});
 </script>
 
@@ -44,8 +45,9 @@
 					<h1>{category.title}</h1>
 				</HTML>
 			</T.Mesh>
-			
 		</Box>
+		{console.log(category.works)}
 	</T.Group>
 {/each}
-{console.log($categories)}
+{console.log($works, 'saved works')}
+

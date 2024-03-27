@@ -23,5 +23,5 @@ export const categoryPositions = writable(new Map());
 export const works = writable([]);
 export const workPositions = writable(new Map());
 
-export const workSize = writable( new Vector3(100, 100, 100));
+
 
