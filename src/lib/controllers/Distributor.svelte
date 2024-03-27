@@ -49,13 +49,11 @@
 		</Box>
 		{#if category.works}
 			{#each category.works as work (work.id)}
-				<T.Mesh>
 					<Box position={work.position} size={work.size} width={5}>
 						<T.Mesh position={[0, 0, $smallCellSize / 2]}
 							><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh
 						>
 					</Box>
-				</T.Mesh>
 			{/each}
 		{/if}
 	</T.Group>
