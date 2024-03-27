@@ -18,6 +18,7 @@
 	} from '$lib/store.js';
 	import SmallGrid from '$lib/components/SmallGrid.svelte';
 	import { HTML } from '@threlte/extras';
+	import BoxDisplay from '$lib/components/BoxDisplay.svelte';
 
 	onMount(async () => {
 		await smallCellSize;
@@ -38,7 +39,6 @@
 {#each $categories as category (category.id)}
 	<T.Group>
 		<Box position={category.position} size={category.size}>
-			<SmallGrid />
 			<T.Mesh position={[0, 0, $cellSize / 2]}>
 				<HTML transform distanceFactor={750} pointerEvents="none" occlude>
 					<div style={`width: ${$cellSize / 2}px; height: ${$cellSize / 2}px;`}>
@@ -49,7 +49,8 @@
 		</Box>
 		{#if category.works}
 			{#each category.works as work (work.id)}
-				<Box position={work.position} size={work.size} width={5}></Box>
+				<Box position={work.position} size={work.size} width={5}>
+				<BoxDisplay {work} smallCellSize={$smallCellSize}/></Box>
 			{/each}
 		{/if}
 	</T.Group>
