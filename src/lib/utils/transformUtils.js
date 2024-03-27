@@ -90,7 +90,7 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
         const categoryWorks = works.filter(work => work.category === category.id).map(work => ({
             ...work,
             size: new Vector3(smallCellSize,smallCellSize,smallCellSize) ,
-            position: new Vector3() // Initialize position for each work
+            position: new Vector3(), // Initialize position for each work
         }));
         return { ...category, works: categoryWorks, size: new Vector3(cellSize, cellSize, cellSize) };
     });
@@ -104,10 +104,6 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
             position: categoryPositions.get(category.id)
         }));
 
-        category.works.forEach(work => {
-            generateUniquePositions([work], new Vector3(1000, 1000, 1000), workPositions, smallCellSize);
-            work.position = workPositions.get(work.id);
-        });
     });
 
 
@@ -145,5 +141,15 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
         }
         return workParts;
     });
+
+    updatedCategories.forEach(category => {
+        category.works.forEach(work => {
+            generateUniquePositions([work], new Vector3(cellSize, cellSize, cellSize), workPositions, smallCellSize);
+            work.position = workPositions.get(work.id).clone().add(category.position);;
+            
+        });
+        console.log('updatedCategories 2', updatedCategories);
+    });
+    
     return updatedCategories;
 }

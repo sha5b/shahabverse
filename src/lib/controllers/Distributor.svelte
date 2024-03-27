@@ -43,11 +43,11 @@
 					<h1>{category.title}</h1>
 				</HTML>
 			</T.Mesh>
-			{#if category.works}
-				{#each category.works as work (work.id)}
-					<Box position={work.position} size={work.size} />
-				{/each}
-			{/if}
 		</Box>
+		{#if category.works}
+		{#each category.works as work (work.id)}
+			<Box position={work.position} size={work.size} />
+		{/each}
+	{/if}
 	</T.Group>
 {/each}
