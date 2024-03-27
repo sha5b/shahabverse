@@ -3,7 +3,7 @@ import { writable, derived } from 'svelte/store';
 
 export const gridSize = writable(new Vector3(10000, 10000, 10000));
 export const cellDivision = writable(10);
-export const smallCellDivision = writable(3);
+export const smallCellDivision = writable(4);
 export const gridColor = writable('#a6bba1');
 export const gridLinewidth = writable(5);
 export const gridOpacity = writable(.75);

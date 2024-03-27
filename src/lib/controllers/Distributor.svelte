@@ -53,6 +53,10 @@
 						<T.Mesh position={[0, 0, $smallCellSize / 2]}
 							><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh
 						>
+						<T.Mesh>
+							<T.BoxGeometry args={[10, 10, 10]} />
+							<T.MeshBasicMaterial color={'red'} />
+						</T.Mesh>
 					</Box>
 			{/each}
 		{/if}
