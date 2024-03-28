@@ -13,30 +13,47 @@
 	export let cellSize;
 
 	const imageUrl = getImageURL(work.collectionId, work.id, work.thump);
-	let rotation = [-Math.PI / 2, 0, 0];
+	let rotationTitle = [-Math.PI / 2, 0, 0];
+	let rotationInfo = [0, -Math.PI / 2, 0];
 </script>
 
-<T.Mesh  position={[0, 0, -250]}>
-	<HTML transform distanceFactor={700} pointerEvents={'none'}>
-		<div style={`width: ${cellSize / 2}px; height: ${cellSize / 2}px;`}>
+<T.Mesh position={[0, 0, -cellSize]}>
+	<HTML transform distanceFactor={175} pointerEvents={'none'}>
+		<div class="content-wrapper" style={`width: ${cellSize * 2}px; height: ${cellSize * 2}px;`}>
 			<!-- Your HTML content with img tag -->
 			<img src={getImageURL(work.collectionId, work.id, work.thump)} alt={work.title} />
 		</div>
 	</HTML>
 </T.Mesh>
-<T.Mesh {rotation} position={[0, - cellSize / 2, - cellSize / 2]}>
-	<HTML transform distanceFactor={700} pointerEvents={'none'}>
-		<div style={`width: ${cellSize / 2}px; height: ${cellSize / 2}px;`}>
+<T.Mesh rotation={rotationTitle} position={[0, -cellSize / 2, -cellSize / 2]}>
+	<HTML transform distanceFactor={175} pointerEvents={'none'}>
+		<div class="text-wrapper" style={`width: ${cellSize * 2}px; height: ${cellSize * 2}px;`}>
 			<h1>{work.title}</h1>
+			<flex>
+				<p>{work.expand.category.title}</p>
+				<p>{work.type} media</p>
+			</flex>
 		</div>
 	</HTML>
 </T.Mesh>
 
 <style>
-	div {
+	.content-wrapper {
 		display: flex;
 		justify-content: center;
 		align-items: flex-end;
+	}
+	.text-wrapper {
+		display: flex;
+		justify-content: left;
+		align-items: flex-start;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	flex {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
 	}
 	img {
 		object-fit: contain;
@@ -44,6 +61,9 @@
 		max-height: 100%;
 	}
 	h1 {
-		font-size: 1rem;
+		font-size: 3rem;
+	}
+	p {
+		font-size: 1.5rem;
 	}
 </style>
