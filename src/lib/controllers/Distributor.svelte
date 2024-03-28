@@ -35,7 +35,7 @@
 		);
 	});
 
-let rotation = [0, 0, (Math.floor(Math.random() * 4) * Math.PI) / 2];
+
 </script>
 
 {#each $categories as category (category.id)}

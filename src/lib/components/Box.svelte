@@ -9,7 +9,7 @@
 	export let position = new Vector3(0, 0, 0);
 	export let size = new Vector3(1000, 1000, 1000);
 	export let width = 10;
-	export let color = '#1f2833';
+	export let color = 'grey';
 	let rotation = [0, 0, 0];
 	
 	$: lines = createBoxLines(size); // Use the utility function

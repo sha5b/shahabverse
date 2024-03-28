@@ -20,7 +20,6 @@
                 width={$gridLinewidth}
                 opacity={$gridOpacity}
                 transparent={true}
-                attenuate={true}
                 dashArray={0.005}
                 dashRatio={0.5}
             />

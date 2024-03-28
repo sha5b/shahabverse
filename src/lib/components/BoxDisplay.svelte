@@ -13,7 +13,7 @@
 	export let cellSize;
 
 	const imageUrl = getImageURL(work.collectionId, work.id, work.thump);
-
+	let rotation = [-Math.PI / 2, 0, 0];
 </script>
 
 <T.Mesh  position={[0, 0, -250]}>
@@ -24,7 +24,7 @@
 		</div>
 	</HTML>
 </T.Mesh>
-<T.Mesh >
+<T.Mesh {rotation} position={[0, - cellSize / 2, - cellSize / 2]}>
 	<HTML transform distanceFactor={700} pointerEvents={'none'}>
 		<div style={`width: ${cellSize / 2}px; height: ${cellSize / 2}px;`}>
 			<h1>{work.title}</h1>
