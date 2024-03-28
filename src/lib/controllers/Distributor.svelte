@@ -40,7 +40,7 @@
 
 {#each $categories as category (category.id)}
 	<T.Group>
-		<Box position={category.position} size={category.size}>
+		<Box position={category.position} size={category.size} idWork={null} idCategory={category.id}>
 			<T.Mesh position={[0, 0, $cellSize / 2]}>
 				<HTML transform distanceFactor={750} pointerEvents="none" occlude>
 					<div style={`width: ${$cellSize / 2}px; height: ${$cellSize / 2}px;`}>
@@ -51,7 +51,7 @@
 		</Box>
 		{#if category.works}
 			{#each category.works as work (work.id)}
-					<Box position={work.position} size={work.size} width={3}>
+					<Box position={work.position} size={work.size} width={3} idCategory={work.category} idWork={work.id}>
 						<T.Mesh position={[0, 0, $smallCellSize / 2]}
 							><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh
 						>

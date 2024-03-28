@@ -19,9 +19,10 @@ export const smallCellSize = derived(
 
 export const categories = writable([]);
 export const categoryPositions = writable(new Map());
+export const categoryId = writable(null);
 
 export const works = writable([]);
 export const workPositions = writable(new Map());
+export const workId = writable(null);
 
-
-
+export const isCameraMoving = writable(false)

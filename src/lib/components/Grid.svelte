@@ -22,6 +22,7 @@
                 transparent={true}
                 dashArray={0.005}
                 dashRatio={0.5}
+                attenuate={true}
             />
         </T.Mesh>
     {/each}

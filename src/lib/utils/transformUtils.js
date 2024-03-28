@@ -65,9 +65,7 @@ function isOverlapping(position, size, categoryPositions, spatialHash, cellSize)
     return false;
 }
 
-// Utility function to generate unique positions for each category
-
-
+// Utility function to generate unique positions for each category and work
 export function generateUniquePositions(items, range, positionsMap, cellSize) {
     const spatialHash = {};
     items.forEach(item => {
@@ -169,6 +167,7 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
             
             // Set the new position for the work
             work.position = workPosition;
+            workPositions.set(work.id, workPosition);
         });
     });
     
