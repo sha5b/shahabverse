@@ -32,7 +32,7 @@
 	// Reactive statement to set active to true when camera has stopped moving and IDs have changed
 	// Reactive statement to set active based on categoryId and workId changes
 	$: active = !($categoryId === idCategory && ($workId === null || $workId === idWork));
-
+	$: console.log(work)
 	function handleClick(event) {
 		event.stopPropagation();
 		if ($categoryId !== idCategory || $workId !== idWork) {
@@ -42,7 +42,7 @@
 			active = false;
 
 			// Construct breadcrumb-like URL
-			const breadcrumb = `/${work.expand.category.title}/${encodeURIComponent(work.title)}`;
+			// const breadcrumb = `/${work?.expand?.category.title}/${encodeURIComponent(work.title)}`;
 
 			// Update the URL without navigating
 			history.pushState({ idCategory, idWork }, '', breadcrumb);

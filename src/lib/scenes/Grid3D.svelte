@@ -7,6 +7,7 @@
 	import { ContactShadows, OrbitControls } from '@threlte/extras';
 	import { Vector3 } from 'three';
 	import Grid from '$lib/components/Grid.svelte';
+	
 	import Distributor from '$lib/controllers/Distributor.svelte';
 	import {
 		categories,
@@ -61,6 +62,10 @@
         cameraTarget = [newTarget.x, newTarget.y, newTarget.z];
     }
 }
+
+function handleChange() {
+    console.log('Value changed!');
+  }
 </script>
 
 <T.Scene>
@@ -71,7 +76,7 @@
 			enableZoom={true}
 			enableDamping
 			autoRotateSpeed={0.1}
-			target.y={1.5}
+			on:change={handleChange}
 
 		/>
 	</T.PerspectiveCamera>
