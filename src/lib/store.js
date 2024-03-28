@@ -26,3 +26,4 @@ export const workPositions = writable(new Map());
 export const workId = writable(null);
 
 export const isCameraMoving = writable(false)
+export const active = writable(false)

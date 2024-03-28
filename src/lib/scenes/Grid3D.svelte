@@ -53,7 +53,6 @@
 			cameraTarget = [newTarget.x, newTarget.y, newTarget.z];
 		}
 	}
-	$: console.log($isCameraMoving);
 </script>
 
 <T.Scene>

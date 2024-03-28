@@ -48,7 +48,7 @@
 
 {#await textureDataPromise then { texture, geometryWidth, geometryHeight }}
 <!-- the + 1 in the z position is to make the images dont collide -->
-	<T.Mesh position={[0, 0, -cellSize + 25]}> 
+	<T.Mesh position={[0, 0, -cellSize ]}> 
 		<T.PlaneGeometry args={[geometryWidth / 1.5, geometryHeight / 1.5]} />
 		<T.MeshBasicMaterial
 			side={THREE.DoubleSide}
@@ -58,7 +58,7 @@
 	</T.Mesh>
 	<T.Mesh rotation={rotationTitle} position={[0, -cellSize / 2, -cellSize / 2]}>
 		<HTML transform distanceFactor={175} pointerEvents={'none'}>
-			<div class="text-wrapper" style={`width: ${cellSize * 2}px; height: ${cellSize * 2 -50}px;`}>
+			<div class="text-wrapper" style={`width: ${cellSize * 2}px; height: ${cellSize * 2}px;`}>
 				<h1>{work.title}</h1>
 				<flex>
 					<p>{work.expand.category.title}</p>
