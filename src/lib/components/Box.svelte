@@ -3,10 +3,9 @@
 	import { T } from '@threlte/core';
 	import { Vector3 } from 'three';
 	import { MeshLineGeometry, MeshLineMaterial, interactivity } from '@threlte/extras';
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import * as THREE from 'three';
-
-	import { categoryId, workId, isCameraMoving } from '$lib/store.js';
+	import { categoryId, workId } from '$lib/store.js';
 	import { createBoxLines } from '$lib/utils/boxUtils.js';
 
 	// Position handling
@@ -25,6 +24,7 @@
 	});
 
 	// Event handling
+	export let work
 	export let idWork; // Assume this is the work id
 	export let idCategory; // Pass the category id as a prop
 	let active = true;
@@ -33,18 +33,22 @@
 	// Reactive statement to set active based on categoryId and workId changes
 	$: active = !($categoryId === idCategory && ($workId === null || $workId === idWork));
 
-
 	function handleClick(event) {
 		event.stopPropagation();
 		if ($categoryId !== idCategory || $workId !== idWork) {
 			// If the IDs are different, the camera should move to the new target
 			categoryId.set(idCategory);
 			workId.set(idWork);
-			active = false
+			active = false;
+
+			// Construct breadcrumb-like URL
+			const breadcrumb = `/${work.expand.category.title}/${encodeURIComponent(work.title)}`;
+
+			// Update the URL without navigating
+			history.pushState({ idCategory, idWork }, '', breadcrumb);
 		} else {
 			active = true;
 		}
-
 	}
 </script>
 
@@ -52,7 +56,14 @@
 	{#each lines as line}
 		<T.Mesh>
 			<MeshLineGeometry points={line} />
-			<MeshLineMaterial {width} {color} transparent={true} dashArray={0.05} dashRatio={0.5} attenuate={true} />
+			<MeshLineMaterial
+				{width}
+				{color}
+				transparent={true}
+				dashArray={0.05}
+				dashRatio={0.5}
+				attenuate={true}
+			/>
 		</T.Mesh>
 		{#if active}
 			<T.Mesh interactive={active} on:click={handleClick}>

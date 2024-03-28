@@ -16,8 +16,7 @@
 		categoryPositions,
 		workPositions,
 		cellSize,
-		smallCellSize,
-		isCameraMoving
+		smallCellSize
 	} from '$lib/store.js';
 	export let data;
 
@@ -73,8 +72,6 @@
 			enableDamping
 			autoRotateSpeed={0.1}
 			target.y={1.5}
-			on:start={() => ($isCameraMoving = true)}
-			on:end={() => ($isCameraMoving = true)}
 
 		/>
 	</T.PerspectiveCamera>

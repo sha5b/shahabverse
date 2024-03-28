@@ -51,7 +51,7 @@
 		</Box>
 		{#if category.works}
 			{#each category.works as work (work.id)}
-					<Box position={work.position} size={work.size} width={3} idCategory={work.category} idWork={work.id}>
+					<Box position={work.position} size={work.size} width={3} idCategory={work.category} idWork={work.id} work={work}>
 						<T.Mesh position={[0, 0, $smallCellSize / 2]}
 							><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh
 						>
