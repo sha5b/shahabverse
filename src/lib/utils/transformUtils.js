@@ -66,23 +66,34 @@ function isOverlapping(position, size, categoryPositions, spatialHash, cellSize)
 }
 
 // Utility function to generate unique positions for each category
+
+
 export function generateUniquePositions(items, range, positionsMap, cellSize) {
     const spatialHash = {};
-
-    items.forEach((item) => {
-        let pos;
-        do {
-            pos = roundVectorToCellSize(getRandomGridPosition(range, item.size), cellSize);
-        } while (isOverlapping(pos, item.size, positionsMap, spatialHash, cellSize));
-
-        const key = computeHashKey(pos, cellSize);
-        if (!spatialHash[key]) {
-            spatialHash[key] = [];
-        }
-        spatialHash[key].push(pos);
+    items.forEach(item => {
+        const pos = getUniquePosition(item, range, cellSize, positionsMap, spatialHash);
         positionsMap.set(item.id, pos);
     });
 }
+
+function getUniquePosition(item, range, cellSize, positionsMap, spatialHash) {
+    let pos;
+    do {
+        pos = roundVectorToCellSize(getRandomGridPosition(range, item.size), cellSize);
+    } while (isOverlapping(pos, item.size, positionsMap, spatialHash, cellSize));
+
+    addPositionToSpatialHash(pos, spatialHash, cellSize);
+    return pos;
+}
+
+function addPositionToSpatialHash(position, spatialHash, cellSize) {
+    const key = computeHashKey(position, cellSize);
+    if (!spatialHash[key]) {
+        spatialHash[key] = [];
+    }
+    spatialHash[key].push(position);
+}
+
 
 export function processCategories(categories, works, spacingFactor, cellSize, categoryPositions, gridSize, workPositions, smallCellSize) {
     const spatialHash = {};
@@ -109,11 +120,11 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
 
     updatedCategories = updatedCategories.flatMap(category => {
         const workParts = [];
-        for (let i = 0; i < category.works.length; i += 8) {
+        for (let i = 0; i < category.works.length; i += 10) {
             const newCategory = {
                 ...category,
-                id: `${category.id}-${i / 8}`,
-                works: category.works.slice(i, i + 8)
+                id: `${category.id}-${i / 10}`,
+                works: category.works.slice(i, i + 10)
             };
             
             let newPosition;
@@ -143,12 +154,25 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
     });
 
     updatedCategories.forEach(category => {
+        generateUniquePositions(category.works, new Vector3(cellSize, cellSize, cellSize), workPositions, smallCellSize, spatialHash); // Make sure to pass the spatialHash here
+        
         category.works.forEach(work => {
-            generateUniquePositions([work], new Vector3(cellSize, cellSize, cellSize), workPositions, smallCellSize);
-            work.position = workPositions.get(work.id).clone().add(category.position);;
+            let workPosition;
+            do {
+                workPosition = getRandomGridPosition(new Vector3(cellSize, cellSize, cellSize), work.size);
+                workPosition.add(category.position); // Adjust if necessary based on your coordinate system
+                workPosition = roundVectorToCellSize(workPosition, smallCellSize);
+            } while (isOverlapping(workPosition, work.size, workPositions, spatialHash, smallCellSize));
+
+            // Update spatial hash with the new work position
+            addPositionToSpatialHash(workPosition, spatialHash, smallCellSize);
             
+            // Set the new position for the work
+            work.position = workPosition;
         });
     });
     
+    
     return updatedCategories;
 }
+

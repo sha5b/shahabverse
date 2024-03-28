@@ -34,6 +34,8 @@
 			$smallCellSize
 		);
 	});
+
+let rotation = [0, 0, (Math.floor(Math.random() * 4) * Math.PI) / 2];
 </script>
 
 {#each $categories as category (category.id)}
@@ -49,14 +51,10 @@
 		</Box>
 		{#if category.works}
 			{#each category.works as work (work.id)}
-					<Box position={work.position} size={work.size} width={5}>
+					<Box position={work.position} size={work.size} width={3}>
 						<T.Mesh position={[0, 0, $smallCellSize / 2]}
 							><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh
 						>
-						<T.Mesh>
-							<T.BoxGeometry args={[10, 10, 10]} />
-							<T.MeshBasicMaterial color={'red'} />
-						</T.Mesh>
 					</Box>
 			{/each}
 		{/if}
