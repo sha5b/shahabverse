@@ -32,7 +32,7 @@
 </script>
 
 <!-- the + 1 in the z position is to make the images dont collide -->
-<T.Mesh position={[-8, 0, -cellSize + 25]}>
+<T.Mesh position={[-8, 0, -cellSize]}>
 	<HTML transform distanceFactor={175} pointerEvents={!active ? 'all' : 'none'}>
 		<flex-image style={`width: ${cellSize * 2}px; height: ${cellSize * 2}px;`}>
 			{#if active}
