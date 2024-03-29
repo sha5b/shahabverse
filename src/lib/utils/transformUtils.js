@@ -118,11 +118,11 @@ export function processCategories(categories, works, spacingFactor, cellSize, ca
 
     updatedCategories = updatedCategories.flatMap(category => {
         const workParts = [];
-        for (let i = 0; i < category.works.length; i += 6) {
+        for (let i = 0; i < category.works.length; i += 4) {
             const newCategory = {
                 ...category,
-                id: `${category.id}-${i / 6}`,
-                works: category.works.slice(i, i + 6)
+                id: `${category.id}-${i / 4}`,
+                works: category.works.slice(i, i + 4)
             };
             
             let newPosition;
