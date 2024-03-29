@@ -23,7 +23,6 @@
 	});
 
 	// Event handling
-	export let work;
 	export let idWork; // Assume this is the work id
 	export let idCategory; // Pass the category id as a prop
 	let opacity = .25
@@ -50,7 +49,7 @@
 			} else {
 				active = true;
 			}
-		}
+		} 
 
 	
 </script>

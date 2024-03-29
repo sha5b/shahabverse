@@ -34,8 +34,6 @@
 			$smallCellSize
 		);
 	});
-
-
 </script>
 
 {#each $categories as category (category.id)}
@@ -49,20 +47,23 @@
 				</HTML>
 			</T.Mesh>
 		</Box>
-		{console.log(category)}
 		{#if category.works}
 			{#each category.works as work (work.id)}
-					<Box position={work.position} size={work.size} width={3} idCategory={work.category} idWork={work.id} work={work}>
-						<T.Mesh position={[0, 0, $smallCellSize / 2]}
-							><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh
-						>
-					</Box>
+				<Box
+					position={work.position}
+					size={work.size}
+					width={3}
+					idCategory={work.category}
+					idWork={work.id}
+				>
+					<T.Mesh position={[0, 0, $smallCellSize / 2]}
+						><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh
+					>
+				</Box>
 			{/each}
-			{console.log(category.works)}
 		{/if}
 	</T.Group>
 {/each}
-
 
 <style>
 	div {
