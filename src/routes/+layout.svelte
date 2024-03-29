@@ -1,13 +1,12 @@
 <script>
-
+	import { pirmaryColor, secondaryColor } from '$lib/store.js';
 </script>
 
 <svelte:head>
-    <meta charset='utf-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <link rel='icon' type='image/png' href='/favicon.png' />
-    <title>Shahabverse</title>
-    
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" type="image/png" href="/favicon.png" />
+	<title>Shahabverse</title>
 </svelte:head>
 
 <slot />
@@ -35,16 +34,20 @@
 	:root::-webkit-scrollbar-thumb {
 		background: black;
 	}
+
+	:global(body) {
+		margin: 0;
+		background: lightgrey;
+	}
+
 	:global(h1) {
 		margin: 0;
 	}
 	:global(h2) {
-
 	}
 	:global(p) {
 		font-size: 1rem;
 		letter-spacing: 0.1rem;
 		line-height: 1.75rem;
 	}
-
 </style>

@@ -5,14 +5,13 @@
 	import { MeshLineGeometry, MeshLineMaterial, interactivity } from '@threlte/extras';
 	import { onMount, onDestroy } from 'svelte';
 	import * as THREE from 'three';
-	import { categoryId, workId, isCameraMoving } from '$lib/store.js';
+	import { categoryId, workId, isCameraMoving, pirmaryColor, secondaryColor } from '$lib/store.js';
 	import { createBoxLines } from '$lib/utils/boxUtils.js';
 
 	// Position handling
 	export let position = new Vector3(0, 0, 0);
 	export let size = new Vector3(1000, 1000, 1000);
 	export let width = 10;
-	export let color = 'grey';
 
 	let rotation = [0, 0, 0];
 
@@ -27,8 +26,9 @@
 	export let work;
 	export let idWork; // Assume this is the work id
 	export let idCategory; // Pass the category id as a prop
+	let opacity = .25
 	let active = true;
-
+	let color = $pirmaryColor;
 	// Reactive statement to set active to true when camera has stopped moving and IDs have changed
 	// Reactive statement to set active based on categoryId and workId changes
 	$: active = !($categoryId === idCategory && ($workId === null || $workId === idWork));
@@ -40,6 +40,7 @@
 				categoryId.set(idCategory);
 				workId.set(idWork);
 				active = false;
+				opacity = .5
 
 				// Construct breadcrumb-like URL
 				// const breadcrumb = `/${work?.expand?.category.title}/${encodeURIComponent(work.title)}`;
@@ -62,6 +63,7 @@
 				{width}
 				{color}
 				transparent={true}
+				opacity={opacity}
 				dashArray={0.05}
 				dashRatio={0.5}
 				attenuate={true}

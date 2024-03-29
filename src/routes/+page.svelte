@@ -8,9 +8,7 @@
 </div>
 
 <style>
-  :global(body) {
-    margin: 0;
-  }
+
 
   div {
     width: 100vw;

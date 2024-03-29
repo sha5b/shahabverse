@@ -21,7 +21,6 @@
 	<T.Mesh position={[0, 0, -cellSize + 25]}> 
 		<HTML transform distanceFactor={175} pointerEvents={'none'}>
 			<div class="content-wrapper" style={`width: ${cellSize * 2}px; height: ${cellSize * 2}px;`}>
-				<!-- Your HTML content with img tag -->
 				<img src={getImageURL(work.collectionId, work.id, work.thump)} alt={work.title} />
 			</div>
 		</HTML>

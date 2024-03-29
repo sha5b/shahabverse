@@ -49,6 +49,7 @@
 				</HTML>
 			</T.Mesh>
 		</Box>
+		{console.log(category)}
 		{#if category.works}
 			{#each category.works as work (work.id)}
 					<Box position={work.position} size={work.size} width={3} idCategory={work.category} idWork={work.id} work={work}>
@@ -57,9 +58,11 @@
 						>
 					</Box>
 			{/each}
+			{console.log(category.works)}
 		{/if}
 	</T.Group>
 {/each}
+
 
 <style>
 	div {

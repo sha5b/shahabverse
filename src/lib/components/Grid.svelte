@@ -5,7 +5,7 @@
     import { Vector3 } from 'three';
     import { createGridLinesGeometry } from '$lib/utils/gridUtils.js';
     import { createEventDispatcher } from 'svelte';
-    import { gridSize, cellDivision, gridColor, gridLinewidth, gridOpacity, cellSize } from '$lib/store.js';
+    import { gridSize, cellDivision, gridLinewidth, gridOpacity, cellSize, pirmaryColor, secondaryColor } from '$lib/store.js';
 
     const gridLines = createGridLinesGeometry($gridSize,$cellDivision);
 
@@ -16,13 +16,13 @@
         <T.Mesh renderOrder={0}>
             <MeshLineGeometry points={[start, end]} />
             <MeshLineMaterial
-                color={$gridColor}
+                color={$pirmaryColor}
                 width={$gridLinewidth}
                 opacity={$gridOpacity}
                 transparent={true}
                 dashArray={0.005}
                 dashRatio={0.5}
-                attenuate={true}
+                attenuate={true}s
             />
         </T.Mesh>
     {/each}
