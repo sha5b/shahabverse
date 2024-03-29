@@ -3,9 +3,9 @@
 	import { T } from '@threlte/core';
 	import { Vector3 } from 'three';
 	import { MeshLineGeometry, MeshLineMaterial, interactivity } from '@threlte/extras';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import * as THREE from 'three';
-	import { categoryId, workId } from '$lib/store.js';
+	import { categoryId, workId, isCameraMoving } from '$lib/store.js';
 	import { createBoxLines } from '$lib/utils/boxUtils.js';
 
 	// Position handling
@@ -24,7 +24,7 @@
 	});
 
 	// Event handling
-	export let work
+	export let work;
 	export let idWork; // Assume this is the work id
 	export let idCategory; // Pass the category id as a prop
 	let active = true;
@@ -32,24 +32,26 @@
 	// Reactive statement to set active to true when camera has stopped moving and IDs have changed
 	// Reactive statement to set active based on categoryId and workId changes
 	$: active = !($categoryId === idCategory && ($workId === null || $workId === idWork));
-	$: console.log(work)
+
 	function handleClick(event) {
-		event.stopPropagation();
-		if ($categoryId !== idCategory || $workId !== idWork) {
-			// If the IDs are different, the camera should move to the new target
-			categoryId.set(idCategory);
-			workId.set(idWork);
-			active = false;
+			event.stopPropagation();
+			if ($categoryId !== idCategory || $workId !== idWork) {
+				// If the IDs are different, the camera should move to the new target
+				categoryId.set(idCategory);
+				workId.set(idWork);
+				active = false;
 
-			// Construct breadcrumb-like URL
-			// const breadcrumb = `/${work?.expand?.category.title}/${encodeURIComponent(work.title)}`;
+				// Construct breadcrumb-like URL
+				// const breadcrumb = `/${work?.expand?.category.title}/${encodeURIComponent(work.title)}`;
 
-			// Update the URL without navigating
-			history.pushState({ idCategory, idWork }, '', breadcrumb);
-		} else {
-			active = true;
+				// Update the URL without navigating
+				// history.pushState({ idCategory, idWork }, '', breadcrumb);
+			} else {
+				active = true;
+			}
 		}
-	}
+
+	
 </script>
 
 <T.Group position={[position.x, position.y, position.z]} {rotation}>
@@ -66,9 +68,9 @@
 			/>
 		</T.Mesh>
 		{#if active}
-			<T.Mesh interactive={active} on:click={handleClick}>
+			<T.Mesh interactive={active} on:contextmenu={handleClick}>
 				<T.BoxGeometry args={[size.x - 25, size.y - 25, size.z - 25]} />
-				<T.MeshBasicMaterial opacity={1} wireframe transparent /></T.Mesh
+				<T.MeshBasicMaterial opacity={0} wireframe transparent /></T.Mesh
 			>
 		{/if}
 		<!-- {#if active}

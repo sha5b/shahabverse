@@ -17,7 +17,8 @@
 		categoryPositions,
 		workPositions,
 		cellSize,
-		smallCellSize
+		smallCellSize,
+		isCameraMoving
 	} from '$lib/store.js';
 	export let data;
 
@@ -63,21 +64,17 @@
     }
 }
 
-function handleChange() {
-    console.log('Value changed!');
-  }
+
 </script>
 
 <T.Scene>
 	<T.PerspectiveCamera makeDefault bind:position={cameraPosition} fov={cameraFOV} far={50000}>
 		<OrbitControls
 			bind:target={cameraTarget}
-			autoRotate
 			enableZoom={true}
 			enableDamping
 			autoRotateSpeed={0.1}
-			on:change={handleChange}
-
+			autoRotate
 		/>
 	</T.PerspectiveCamera>
 
@@ -86,7 +83,7 @@ function handleChange() {
 
 	<Grid />
 
-	<Distributor />
+	<Distributor /> 
 
 	<ContactShadows scale={10} blur={2} far={2.5} opacity={0.5} />
 </T.Scene>
