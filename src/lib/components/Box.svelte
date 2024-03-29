@@ -70,7 +70,7 @@
 		</T.Mesh>
 		{#if active}
 			<T.Mesh interactive={active} on:contextmenu={handleClick}>
-				<T.BoxGeometry args={[size.x - 25, size.y - 25, size.z - 25]} />
+				<T.BoxGeometry args={[size.x - 50, size.y - 50, size.z - 50]} />
 				<T.MeshBasicMaterial opacity={0} wireframe transparent /></T.Mesh
 			>
 		{/if}

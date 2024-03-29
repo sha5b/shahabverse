@@ -39,8 +39,8 @@
 {#each $categories as category (category.id)}
 	<T.Group>
 		<Box position={category.position} size={category.size} idWork={null} idCategory={category.id}>
-			<T.Mesh position={[0, 0, $cellSize / 2]}>
-				<HTML transform distanceFactor={750} pointerEvents="none" occlude>
+			<T.Mesh position={[0, 0, $cellSize / 2]} >
+				<HTML transform distanceFactor={750} pointerEvents="none">
 					<div style={`width: ${$cellSize / 2}px; height: ${$cellSize / 2}px;`}>
 						<h1>{category.title}</h1>
 					</div>
