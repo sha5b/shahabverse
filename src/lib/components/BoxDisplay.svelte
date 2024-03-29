@@ -16,6 +16,7 @@
 	export let idWork;
 
 	let rotationTitle = [-Math.PI / 2, 0, 0];
+	let rotationSub = [0, -Math.PI / 2, 0];
 
 	$: active = $categoryId !== idCategory || ($workId !== null && $workId !== idWork);
 
@@ -28,15 +29,6 @@
 		return date.toLocaleDateString(undefined, options);
 	}
 
-	onMount(() => {
-		const imageFlex = document.getElementById('image-flex');
-		if (imageFlex) {
-			imageFlex.addEventListener('wheel', (event) => {
-				event.preventDefault(); // Prevent the default vertical scrolling
-				imageFlex.scrollLeft += event.deltaY; // Scroll horizontally instead
-			});
-		}
-	});
 </script>
 
 <!-- the + 1 in the z position is to make the images dont collide -->
@@ -111,6 +103,44 @@
 		{/if}
 	</HTML>
 </T.Mesh>
+{#if !active && work.expand && work.expand.colab && work.expand.colab.length > 0 && work.expand.exhibitions && work.expand.exhibitions.length > 0}
+
+	<T.Mesh rotation={rotationSub} position={[cellSize / 2, 0, -cellSize / 2]}>
+		<HTML transform distanceFactor={175} pointerEvents={!active ? 'all' : 'none'}>
+			<div
+				class="text-wrapper"
+				style={`width: ${cellSize * 2}px; height: ${cellSize * 2 - 50}px; max-height: ${cellSize * 2 - 50}px;`}
+			>
+				<flex style="flex-direction: column">
+					{#if work.expand && work.expand.colab && work.expand.colab.length > 0}
+						<div class="info-item">
+							<span class="info-title">collaborations:</span>
+							<div class="info-content">
+								{#each work.expand.colab as colab}
+									<a href={colab.link} class="list-item" target="_blank">{colab.title}</a>
+								{/each}
+							</div>
+						</div>
+					{/if}
+					{#if work.expand.exhibitions && work.exhibitions.length > 0}
+						<div class="info-item">
+							<span class="info-title">exhibitions:</span>
+							<flex class="info-content">
+								{#each work.expand.exhibitions as exhibition}
+									<div>
+										<a class="list-item" href={exhibition.link} target="_blank"
+											>{exhibition.title}</a
+										>
+									</div>
+								{/each}
+							</flex>
+						</div>
+					{/if}
+				</flex>
+			</div>
+		</HTML>
+	</T.Mesh>
+{/if}
 
 <style>
 	/* The scrollbar track (the part that the scrollbar thumb moves along) */
@@ -150,7 +180,6 @@
 		overflow-x: hidden; /* Hide horizontal overflow */
 		overflow-y: auto; /* Enable vertical scrolling */
 		gap: 100px; /* Gap between items */
-
 	}
 
 	.synopsis {
@@ -182,13 +211,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
-	}
-	.content-wrapper {
-		flex: 1;
-		display: flex;
-		justify-content: center;
-		align-items: flex-end;
-		flex-shrink: 1; /* Prevent flex items from shrinking smaller than their content */
+		word-wrap: break-word;
+		word-break: normal;
+		max-width: 100%;
 	}
 	.text-wrapper {
 		display: flex;
@@ -212,5 +237,26 @@
 	}
 	p {
 		font-size: 1.5rem;
+	}
+
+	a {
+		display: block;
+		word-wrap: break-word;
+		word-break: normal;
+		transition:
+			background-color 0.3s ease,
+			color 0.3s ease; /* Smooth transition for background and text color */
+		background-color: rgba(255, 255, 255, 0);
+		/* Make the link fill the exhibition item's row */
+		text-decoration: none;
+		/* Optional: Removes underline from links */
+		color: inherit;
+		/* Optional: Inherits color from parent */
+		line-height: 2rem;
+	}
+
+	a:hover {
+		background-color: rgba(0, 0, 0, 1);
+		filter: invert(100%); /* Invert colors on hover */
 	}
 </style>
