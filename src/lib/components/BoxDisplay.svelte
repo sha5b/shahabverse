@@ -8,14 +8,17 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { getImageURL } from '$lib/utils/getURL';
 	import { Vector3 } from 'three';
-
+	import { categoryId, workId, isCameraMoving, pirmaryColor, secondaryColor } from '$lib/store.js';
 	export let work;
 	export let cellSize;
-	export let active;
+	let active;
+	export let idCategory
+	export let idWork
 
 	let rotationTitle = [-Math.PI / 2, 0, 0];
 
-$: console.log(active)
+	$: active = $categoryId !== idCategory || ($workId !== null && $workId !== idWork);
+	$: console.log(active)
 </script>
 
 <!-- the + 1 in the z position is to make the images dont collide -->
@@ -35,6 +38,9 @@ $: console.log(active)
 					<p>{work.type} media</p>
 				</flex>
 			</div>
+			{#if !active}
+			<p>I did it</p>
+			{/if}
 		</HTML>
 	</T.Mesh>
 

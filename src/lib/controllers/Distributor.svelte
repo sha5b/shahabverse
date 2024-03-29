@@ -34,13 +34,20 @@
 			$smallCellSize
 		);
 	});
+
+	let activeStates = {};
+
+	// Example function to toggle active state
+	function toggleActive(workId) {
+		activeStates[workId] = !activeStates[workId];
+	}
 </script>
 
 {#each $categories as category (category.id)}
 	<T.Group>
 		<Box position={category.position} size={category.size} idWork={null} idCategory={category.id}>
-			<T.Mesh position={[0, 0, $cellSize / 2]} >
-				<HTML transform distanceFactor={750} pointerEvents="none">
+			<T.Mesh position={[0, 0, $cellSize / 2]}>
+				<HTML transform distanceFactor={750} pointerEvents="none" occlude>
 					<div style={`width: ${$cellSize / 2}px; height: ${$cellSize / 2}px;`}>
 						<h1>{category.title}</h1>
 					</div>
@@ -55,10 +62,15 @@
 					width={3}
 					idCategory={work.category}
 					idWork={work.id}
-
+					let:active
 				>
 					<T.Mesh position={[0, 0, $smallCellSize / 2]}
-						><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh
+						><BoxDisplay
+							{work}
+							cellSize={$smallCellSize}
+							idCategory={work.category}
+							idWork={work.id}
+						/></T.Mesh
 					>
 				</Box>
 			{/each}
