@@ -55,6 +55,7 @@
 					width={3}
 					idCategory={work.category}
 					idWork={work.id}
+
 				>
 					<T.Mesh position={[0, 0, $smallCellSize / 2]}
 						><BoxDisplay {work} cellSize={$smallCellSize} /></T.Mesh

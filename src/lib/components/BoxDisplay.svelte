@@ -11,10 +11,11 @@
 
 	export let work;
 	export let cellSize;
-	
+	export let active;
+
 	let rotationTitle = [-Math.PI / 2, 0, 0];
 
-
+$: console.log(active)
 </script>
 
 <!-- the + 1 in the z position is to make the images dont collide -->
