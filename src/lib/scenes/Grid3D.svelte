@@ -25,7 +25,7 @@
 	$categories = data.categories;
 	$works = data.works;
 
-	let cameraPosition = [-2500, 2500, 2500];
+	let cameraPosition = [-2500, 1000, 2500];
 	let cameraTarget = [0, 0, 0];
 
 	let cameraFOV = 45;
@@ -40,12 +40,12 @@
         // When workId is null, but categoryId is set, use category position
         newPosition = $categoryPositions.get(categoryId);
         newTarget = newPosition;
-        zoomLevel = $cellSize * 2; // Zoom level for category
+        zoomLevel = $cellSize * 3; // Zoom level for category
     } else if (categoryId && workId !== null) {
         // When both categoryId and workId are set, use work position
         newPosition = $workPositions.get(workId);
         newTarget = newPosition;
-        zoomLevel = $smallCellSize * 2; // Zoom level for work within a category
+        zoomLevel = $smallCellSize * 3; // Zoom level for work within a category
     }
     
     // If newPosition was found, update camera's position and target

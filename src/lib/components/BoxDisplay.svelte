@@ -49,19 +49,19 @@
 	</HTML>
 </T.Mesh>
 <T.Mesh rotation={rotationTitle} position={[0, -cellSize / 2, -cellSize / 2]}>
-	<HTML transform distanceFactor={175} pointerEvents={!active ? 'all' : 'none'}>
+	<HTML transform distanceFactor={175} pointerEvents={'none'}>
 		<div
 			class="text-wrapper"
 			style={`width: ${cellSize * 2}px; height: ${cellSize * 2 - 50}px; max-height: ${cellSize * 2 - 50}px;`}
 		>
 			<h1>{work.title}</h1>
-			{#if !active}
+			<!-- {#if !active}
 				{#if work.synopsis}
 					<div class="synopsis">
 						{@html work.synopsis}
 					</div>
 				{/if}
-			{/if}
+			{/if} -->
 			<flex>
 				<p>{work.expand.category.title}</p>
 				<p>{work.type} media</p>
@@ -106,7 +106,7 @@
 {#if !active && work.expand && work.expand.colab && work.expand.colab.length > 0 && work.expand.exhibitions && work.expand.exhibitions.length > 0}
 
 	<T.Mesh rotation={rotationSub} position={[cellSize / 2, 0, -cellSize / 2]}>
-		<HTML transform distanceFactor={175} pointerEvents={!active ? 'all' : 'none'}>
+		<HTML transform distanceFactor={175} pointerEvents={!active ? 'visiblePainted' : 'none'}>
 			<div
 				class="text-wrapper"
 				style={`width: ${cellSize * 2}px; height: ${cellSize * 2 - 50}px; max-height: ${cellSize * 2 - 50}px;`}
